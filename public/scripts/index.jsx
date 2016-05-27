@@ -37,15 +37,10 @@ var AddTeamButton = React.createClass(
 			return { teamName : "" };
 		},
 
-		handleClick : function()
+		handleAddClick : function()
 		{
-			this.props.onClick(this.props.teamName);
+			this.props.onTeamAdded(this.props.teamName);
 			document.getElementById("teamName").value = "";
-		},
-
-		teamNameChanged : function(ev)
-		{
-			this.props.teamName = ev.target.value;
 		},
 
 		handleDeleteClick : function()

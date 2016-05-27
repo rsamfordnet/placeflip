@@ -28,7 +28,7 @@ module.exports = {
                 repository.mdb.collection("teams").remove( { name : req.body.name } );
             }
         );
-        
+
 	}
 };
 
