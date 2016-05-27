@@ -140,9 +140,9 @@ app.delete("/teams",
 );
 */
 
-/* Listen on 8001 */
+/* Listen on 8001 or Heroku Production port. */
 app.listen(
-		8001, 
+		port, 
 		function(){
 			console.log('Listening on 8001');
 		}
