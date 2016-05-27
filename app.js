@@ -1,3 +1,5 @@
+var port = process.env.PORT || 8001;
+
 /* Config section. */
 var dbConfig = require('./config/db.js');
 
