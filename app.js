@@ -94,6 +94,7 @@ var requireSession = function(req, res, next){
 }
 
 /* Controllers */
+require('./controllers/apiController.js').setup(app, repository, passport, requireSession);
 require('./controllers/homeController.js').setup(app, repository, passport, requireSession);
 
 /* Express app settings section. */
