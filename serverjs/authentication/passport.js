@@ -43,7 +43,10 @@ module.exports = function(app, repository)
                         done(null, user);
                     },
                     function(error){
-                        done(null, false, {message : "Authentication Error"});
+                        console.log('login failed');
+                        
+                        if (done)
+                            done(null, null, {message : "Authentication Error"});
                     }
                 );
             }

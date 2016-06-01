@@ -46,7 +46,7 @@ module.exports = React.createClass(
         
         onEnter : function(ev)
         {
-            if (this.ev.keyCode == 13)
+            if (ev.keyCode == 13)
                 this.onSend();
         },
         
@@ -60,15 +60,17 @@ module.exports = React.createClass(
                                 function(message) 
                                 {
                                     return <div> 
-                                        <span>{ message.user } : </span>
-                                        <span key={message.message}>{message.message}</span>
+                                        <span><strong>{ message.user }</strong></span>
+                                        <div className="chat-message">
+                                            <span key={message.message}>{message.message}</span>
+                                        </div>
                                     </div>
                                 }
                             )
                         }
                     </div>
                     <input type="text" className="chat-input" onChange={ this.onTextChange } onKeyDown={ this.onEnter } />
-                    <input type="button" value="send" onClick={ this.onSend } />
+                    <input type="button" value="Send" onClick={ this.onSend } />
                 </div>
             );
         }

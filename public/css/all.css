@@ -1,0 +1,11 @@
+.chat-message
+{
+    padding:5px;
+    background:#f9f9f9;
+    border:1px #f0f0f0 solid;
+    border-radius: 5px;
+}
+
+td{
+    padding:15px
+}
