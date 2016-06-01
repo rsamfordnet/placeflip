@@ -19,7 +19,11 @@ module.exports = {
                         if (user && user.password == password)
                             success(user);
                         else
-                            error();
+                        {
+                            if (error)
+                                error("user not found");
+                        }
+                            
                     }
                 );
             }

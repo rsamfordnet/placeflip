@@ -1,7 +1,9 @@
 module.exports = {
-	setup : function(app, repository, passport, requiredSession)
+	setup : function(app, repository, requireSession)
 	{
-		app.get("/hello", requiredSession,			   
+		var passport = requireSession.passport;
+		
+		app.get("/hello", requireSession,			   
 			function(request, response, next)
 			{
 				response.render('index');
@@ -30,7 +32,7 @@ module.exports = {
 			passport.authenticate(
 				'local', 
 				{ 
-					successRedirect: '/hello',
+					successRedirect: '/',
                     failureRedirect: '/login',
                     failureFlash: true 
 				}
@@ -46,6 +48,14 @@ module.exports = {
 						res.redirect("welcome");
 					}
 				);
+			}
+		);
+		
+		app.get('/', requireSession,
+			function(req, res)
+			{
+				console.log("Incoming user: " + req.user.name);
+				res.render('index', req.user);
 			}
 		);
 	}

@@ -18,7 +18,8 @@ io.on(
             'show in console', 
             function(message)
             {
-                console.log(message)
+                socket.broadcast.emit('cjhat');
+                console.log(message);
             }
         );
         
@@ -106,7 +107,6 @@ var requireSession = function(req, res, next){
         return res.redirect("login");
     }
        
-        
     next();
 }
 

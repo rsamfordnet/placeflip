@@ -5,7 +5,7 @@
   "engines": {
     "node": "4.1.1"
   },
-  "main": "app.js",
+  "main": "server.js",
   "dependencies": {
     "body-parser": "^1.15.1",
     "cookie-parser": "^1.4.3",
@@ -14,8 +14,10 @@
     "express": "^4.13.4",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.13.0",
+    "flux": "^2.1.1",
     "jquery": "^2.2.4",
     "mongodb": "^2.1.20",
+    "object-assign": "^4.1.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "react": "^15.1.0",
@@ -35,7 +37,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
+    "start": "node server.js",
     "watch": "watchify test.js -o all.js -v"
   },
   "repository": {
