@@ -44,6 +44,12 @@ module.exports = React.createClass(
             this.state.currentMessage = ev.target.value;
         },
         
+        onEnter : function(ev)
+        {
+            if (this.ev.keyCode == 13)
+                this.onSend();
+        },
+        
         render : function()
         {
             return (
@@ -61,7 +67,7 @@ module.exports = React.createClass(
                             )
                         }
                     </div>
-                    <input type="text" className="chat-input" onChange={ this.onTextChange } />
+                    <input type="text" className="chat-input" onChange={ this.onTextChange } onKeyDown={ this.onEnter } />
                     <input type="button" value="send" onClick={ this.onSend } />
                 </div>
             );
