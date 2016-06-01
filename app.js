@@ -8,6 +8,23 @@ var express         = require('express');
 var app             = express();
 var cookieParser    = require('cookie-parser');
 var session         = require('express-session');
+var http            = require('http').Server(app);
+var io              = require('socket.io')(http);
+
+io.on(
+    'connection', 
+    function(socket){
+        socket.on(
+            'show in console', 
+            function(message)
+            {
+                console.log(message)
+            }
+        );
+        
+        console.log('user joined');
+    }
+);
 
 /* Express Body - Express */
 var bodyParser = require('body-parser');
@@ -142,7 +159,7 @@ app.delete("/teams",
 */
 
 /* Listen on 8001 or Heroku Production port. */
-app.listen(
+http.listen(
 		port, 
 		function(){
 			console.log('Listening on 8001');

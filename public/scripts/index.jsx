@@ -151,3 +151,4 @@ var App = React.createClass(
 
 
 React.render(<App  />, document.getElementById("fifaApp"));
+var socket = io();

@@ -16,10 +16,23 @@
 		<script src="https://fb.me/react-0.13.3.js"></script>
     	<script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
     	<script src="scripts/index.jsx" type="text/jsx"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			function()
+			{
+				$(
+					function()
+					{
+						var socket = io();
+						socket.emit('show in console', 'hello world');
+					}
+				);
+			}
+		</script>
 	</head>
 	<body>
 		<div>
-			<h1>Match list. V3</h1>
+			<h1>Match list. V4</h1>
 		</div>
 		<hr />
 		<div id="fifaApp"></div>
