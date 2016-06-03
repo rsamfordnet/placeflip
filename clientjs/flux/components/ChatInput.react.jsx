@@ -1,4 +1,4 @@
-var $          = require('jQuery');
+var $          = require('jquery');
 var React      = require('react');
 var Actions    = require('../actions/Actions.jsx');
 var ChatStore  = require('../stores/ChatStore.jsx');
@@ -27,6 +27,8 @@ module.exports = React.createClass(
                             messages : state.messages
                         }
                     );
+                    
+                    component.scrollDown();
                 }
             );
         },
@@ -36,7 +38,7 @@ module.exports = React.createClass(
             var userName = $("#sessionContainer").text();
             
             Actions.sendMessage({ message : this.state.currentMessage, user : userName}, true);
-            $(".chat-input").val("");
+            $(".chat-text").val("");
         },
         
         onTextChange : function(ev)
@@ -50,16 +52,21 @@ module.exports = React.createClass(
                 this.onSend();
         },
         
+        scrollDown : function()
+        {
+            $(".chat-container").animate({scrollTop:$(".chat-container")[0].scrollHeight}, 1000);
+        },
+        
         render : function()
         {
             return (
-                <div>
-                    <div>
+                <div className="chat-container">
+                    <div className="chat-messages-container">
                         {
                             this.state.messages.map(
                                 function(message) 
                                 {
-                                    return <div> 
+                                    return <div className="chat-message"> 
                                         <span><strong>{ message.user }</strong></span>
                                         <div className="chat-message">
                                             <span key={message.message}>{message.message}</span>
@@ -69,8 +76,8 @@ module.exports = React.createClass(
                             )
                         }
                     </div>
-                    <input type="text" className="chat-input" onChange={ this.onTextChange } onKeyDown={ this.onEnter } />
-                    <input type="button" value="Send" onClick={ this.onSend } />
+                    <input type="text" className="chat-text" onChange={ this.onTextChange } onKeyDown={ this.onEnter } />
+                    <input type="button" className="chat-button" value="Send" onClick={ this.onSend } />
                 </div>
             );
         }

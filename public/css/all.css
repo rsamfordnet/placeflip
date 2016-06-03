@@ -9,3 +9,13 @@
 td{
     padding:15px
 }
+
+.chat-messages-container
+{
+    height: 300px;
+    overflow: scroll
+}
+
+.chat-message{
+    padding: 5px
+}   

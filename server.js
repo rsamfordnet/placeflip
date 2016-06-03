@@ -57,7 +57,7 @@ io.on(
 
 /* Handlebar view engine and public directory setup. */
 var exphbs = require('express-handlebars');
-app.engine('.hbs', exphbs({defaultLayout: 'single', extname: '.hbs'}));
+app.engine('.hbs', exphbs({defaultLayout: 'master', extname: '.hbs'}));
 app.set('view engine', '.hbs');
 app.use(express.static('public'));
 
