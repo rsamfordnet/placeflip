@@ -13,7 +13,7 @@ td{
 .chat-messages-container
 {
     height: 300px;
-    overflow: scroll
+    overflow-y: scroll
 }
 
 .chat-message{
