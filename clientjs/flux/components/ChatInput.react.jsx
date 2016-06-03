@@ -54,7 +54,7 @@ module.exports = React.createClass(
         
         scrollDown : function()
         {
-            $(".chat-container").animate({scrollTop:$(".chat-container")[0].scrollHeight}, 1000);
+            $(".chat-messages-container").animate({scrollTop:$(".chat-messages-container")[0].scrollHeight}, 1);
         },
         
         render : function()
@@ -76,8 +76,16 @@ module.exports = React.createClass(
                             )
                         }
                     </div>
-                    <input type="text" className="chat-text" onChange={ this.onTextChange } onKeyDown={ this.onEnter } />
-                    <input type="button" className="chat-button" value="Send" onClick={ this.onSend } />
+                    <table className="chat-inputs-container">
+                        <tr>
+                            <td className="_-textcell">
+                                <input type="text" className="chat-text" onChange={ this.onTextChange } onKeyDown={ this.onEnter } />
+                            </td>
+                            <td className="_-buttoncell">
+                                <input type="button" className="chat-button" value="Send" onClick={ this.onSend } />
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             );
         }

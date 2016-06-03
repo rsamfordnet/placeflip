@@ -1,8 +1,7 @@
 .chat-message
 {
     padding:5px;
-    background:#f9f9f9;
-    border:1px #f0f0f0 solid;
+    
     border-radius: 5px;
 }
 
@@ -19,3 +18,18 @@ td{
 .chat-message{
     padding: 5px
 }   
+
+.chat-inputs-container
+{
+    width:100%;
+}
+
+.chat-inputs-container ._-textcell
+{
+    width:100%;
+}
+
+.chat-inputs-container ._-textcell input
+{
+    width:100%;
+}
