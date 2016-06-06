@@ -5,7 +5,7 @@
   "engines": {
     "node": "4.1.1"
   },
-  "main": "server.js",
+  "main": "app/server.js",
   "dependencies": {
     "body-parser": "^1.15.1",
     "cookie-parser": "^1.4.3",
