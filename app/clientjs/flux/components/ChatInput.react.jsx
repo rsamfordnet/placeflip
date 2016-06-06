@@ -79,6 +79,18 @@ module.exports = React.createClass(
                     $(".chat-text").val("");
                 }
             );
+
+
+            chat.on(
+                'onTyping',
+                function(data)
+                {
+                    if (data.hasText)
+                        $('.chat-typing').text("User " + data.userName + " is typing");
+                    else
+                        $('.chat-typing').text("");
+                }
+            );
             
             chat.on(
                 'onError',
@@ -96,13 +108,12 @@ module.exports = React.createClass(
         
         onSend : function()
         {
-            var userName = session.name;
             var chatText = $(".chat-text").val();
             
             Actions.sendMessage(
                 { 
                     text : chatText, 
-                    user : userName
+                    user : session.name
                 }, 
                 true
             );
@@ -113,10 +124,20 @@ module.exports = React.createClass(
             this.state.currentMessage = ev.target.value;
         },
         
-        onEnter : function(ev)
+        onTyping : function(ev)
         {
             if (ev.keyCode == 13)
                 this.onSend();
+        },
+
+        onTypingComplete : function(ev)
+        {
+            var hasText = $(".chat-text").val().length > 0;
+
+            Actions.sendTyping( { hasText  : hasText } );
+
+            if (ev.keyCode == 13)
+                Actions.sendTyping({ hasText  : false });
         },
         
         onRoomChanged : function(ev)
@@ -139,6 +160,7 @@ module.exports = React.createClass(
         {
             return (
                 <div className="chat-container">
+                    <div className="chat-typing"></div>
                     <select onChange={this.onRoomChanged}>
                         <option>[Select a room]</option>
                         {
@@ -170,7 +192,7 @@ module.exports = React.createClass(
                         <tbody>
                             <tr>
                                 <td className="_-textcell">
-                                    <input type="text" className="chat-text" onChange={ this.onTextChange } onKeyDown={ this.onEnter } />
+                                    <input type="text" className="chat-text" onChange={ this.onTextChange } onKeyDown={ this.onTyping } onKeyUp={ this.onTypingComplete } />
                                 </td>
                                 <td className="_-buttoncell">
                                     <input type="button" className="chat-button" value="Send" onClick={ this.onSend } />

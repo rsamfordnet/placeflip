@@ -58,7 +58,13 @@ function Chat()
                     instance.emit('onMessage', message);    
             }
         );
-        
+
+        socket.on(
+            'chat-typing', 
+            function(data){
+                instance.emit('onTyping', data)
+            }
+        );
         
         socket.on(
             'chat-leave', 
@@ -104,6 +110,15 @@ function Chat()
         
         this.emit('onMessageSent');
         this.emit('onMessage', newMessage);
+    };
+
+    /* public void [] */
+    this.sendTyping = function(hastext)
+    {
+        if (this.currentRoom == null)
+            return;
+
+        this.currentRoom.sendTyping(hastext);
     };
     
     /* public void [emits->onShowRoom] */ 

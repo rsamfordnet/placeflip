@@ -73,6 +73,15 @@ io.on(
                 socket.join(roomName);
             }
         );
+
+        socket.on(
+            'chat-typing',
+            function(data)
+            {
+                socket.broadcast.in(data.roomName).emit('chat-typing', data);
+                console.log(data);
+            }
+        );
         
         socket.on(
             'chat-message', 

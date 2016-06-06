@@ -12,6 +12,7 @@
     /* public Room 							 */ this.roomName = roomName;
 	/* public Observable.Collection<User> 	 */ this.users    = new Observable.Collection(User);
 	/* public Observable.Collection<Message> */ this.messages = new Observable.Collection(Message);
+	/* public bool							 */ this.isTyping = false;
 
 	/* public void */ 
 	this.send = function(message)
@@ -22,8 +23,41 @@
         message.roomName = this.roomName;
         global.socket.emit('chat-message', message);
 
+        this.sendTyping(false);
 		this.messages.add(message);
-	}
+	};
+
+	/* public void */
+	this.sendTyping = function(hasText)
+	{
+		if (!this.isTyping && hasText)
+		{
+			this.isTyping = true;
+
+			global.socket.emit(
+				'chat-typing', 
+				{ 
+					userName : session.name, 
+					hasText  : true, 
+					roomName : this.roomName 
+				}
+			);
+		}
+
+		if (this.isTyping && !hasText)
+		{
+			this.isTyping = false;
+
+			global.socket.emit(
+				'chat-typing', 
+				{ 
+					userName : session.name, 
+					hasText  : false, 
+					roomName : this.roomName 
+				}
+			);
+		}
+	};
     
     /* public void */ 
 	this.join = function()

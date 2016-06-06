@@ -15,6 +15,11 @@ const Actions = {
             }
         );
     },
+
+    sendTyping : function(data)
+    {
+        Chat.sendTyping(data.hasText);
+    },
     
     joinRoom : function(roomName)
     {
