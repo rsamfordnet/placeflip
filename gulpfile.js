@@ -3,7 +3,7 @@ var browserify = require('browserify'),
     gulp       = require('gulp'),
     babel      = require('gulp-babel'),
     source     = require('vinyl-source-stream'),
-    sourceFile = 'client.jsx',
+    sourceFile = 'app/client.jsx',
     destFolder = './public/scripts/';
     
 function handleErrors(error)
@@ -23,12 +23,17 @@ gulp.task('browserify', function() {
   });
 
   var bundle = function() {
-    return bundler
+    console.log('gulp is working...');
+    
+    var result = bundler
       .transform("babelify", {presets: ["es2015", "react"]})
       .bundle()
       .on('error', handleErrors)
       .pipe(source(sourceFile))
-      .pipe(gulp.dest(destFolder));
+      .pipe(gulp.dest(destFolder))
+      .on('end', function(){ console.log('Done!! :D @ ' + new Date().toString() ); });
+     
+     return result;
   };
 
   /*if(global.isWatching) {*/

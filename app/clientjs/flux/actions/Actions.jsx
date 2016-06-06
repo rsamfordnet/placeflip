@@ -1,15 +1,12 @@
 var $          = require('jQuery');
 var Dispatcher = require('../dispatcher/Dispatcher.jsx');
 var Constants  = require('../constants/Constants.jsx');
-
-var socket = window.io();
-socket.emit('chat-start', 'hello');
+var Chat       = require('../../object-model/Chat.js');
 
 const Actions = {
     sendMessage : function(message, sendThroughSocket)
     {
-        if (sendThroughSocket)
-            socket.emit('chat-message', message);
+        Chat.sendMessage(message.text, message.user);
         
         Dispatcher.dispatch(
             { 
@@ -17,17 +14,17 @@ const Actions = {
                 message    : message
             }
         );
+    },
+    
+    joinRoom : function(roomName)
+    {
+        Chat.joinRoom(roomName);
+    },
+    
+    showAvailableRooms : function()
+    {
+        Chat.findAvailableRooms()
     }
 };
-
-/* --- */
-socket.on(
-    'chat-message', 
-    function(data) 
-    {
-        Actions.sendMessage(data, false);
-    }
-);
-
 
 module.exports = Actions;

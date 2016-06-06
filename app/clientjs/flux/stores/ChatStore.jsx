@@ -2,6 +2,7 @@ var Dispatcher   = require('../dispatcher/Dispatcher.jsx');
 var assign       = require('object-assign');
 var EventEmitter = require('events').EventEmitter;
 var Constants    = require('../constants/Constants.jsx');
+var socket       = window.io();
 
 /* -- */
 const SENDMESSAGE_EVENT = Constants.SENDMESSAGE_EVENT;
@@ -28,7 +29,7 @@ const ChatStore = assign(EventEmitter.prototype, {
  
     emitChange: function () {
         this.emit(SENDMESSAGE_EVENT);
-    }
+    }   
 });
 
 
