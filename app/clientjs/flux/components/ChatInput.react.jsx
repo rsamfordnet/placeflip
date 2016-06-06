@@ -61,6 +61,7 @@ module.exports = React.createClass(
                     */
                     
                     component.setState(state);
+                    component.scrollDown();
                 }
             );
             
