@@ -1,9 +1,9 @@
 var $ = require('jQuery');
 
 
-/* class */ function User()
+/* class */ function User(userName)
 {
-	this.name = "";
+	this.userName = userName;
 }
 //=>
 module.exports = User;

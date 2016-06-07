@@ -13,8 +13,9 @@ module.exports = React.createClass(
         getInitialState : function()
         {
             return {
-                messages : [],
-                availableRooms : [],
+                messages        : [],
+                availableRooms  : [],
+                connectedUsers  : [],
                 currentRoomName : ""
             };
         },
@@ -67,9 +68,17 @@ module.exports = React.createClass(
             
             chat.on(
                 'onJoin', 
-                function(data)
+                function()
                 {
-                    alert(data.userName + ' joined the room.');
+                    component.refreshParticipants();
+                }
+            );
+
+            chat.on(
+                'onLeave',
+                function()
+                {
+                    component.refreshParticipants();
                 }
             );
             
@@ -104,6 +113,16 @@ module.exports = React.createClass(
             chat.start();
             
             Actions.showAvailableRooms();
+        },
+
+        refreshParticipants : function()
+        {
+            var state = this.state;
+
+            state.connectedUsers =
+                chat.currentRoom.users.toArray();
+
+            this.setState(state);
         },
         
         onSend : function()
@@ -160,6 +179,19 @@ module.exports = React.createClass(
         {
             return (
                 <div className="chat-container">
+                    <div>
+                        Connected Users 
+                        <ul>
+                            {
+                                this.state.connectedUsers.map(
+                                    function(user) 
+                                    {
+                                        return <li key={user.userName}>{user.userName}</li>
+                                    }
+                                )
+                            }
+                        </ul>
+                    </div>
                     <div className="chat-typing"></div>
                     <select onChange={this.onRoomChanged}>
                         <option>[Select a room]</option>

@@ -10,9 +10,21 @@
 		throw 'roomName cannot be undefined.';
 		
     /* public Room 							 */ this.roomName = roomName;
-	/* public Observable.Collection<User> 	 */ this.users    = new Observable.Collection(User);
+	/* public Observable.Dictionary<User> 	 */ this.users    = new Observable.Dictionary(User);
 	/* public Observable.Collection<Message> */ this.messages = new Observable.Collection(Message);
 	/* public bool							 */ this.isTyping = false;
+
+	/* public void */
+	this.addUser = function(/* User */ user )
+	{
+		this.users.add(user.userName, user);
+	};
+
+	/* public void */
+	this.removeUser = function(/* string */ userName)
+	{
+		this.users.remove(userName);
+	};
 
 	/* public void */ 
 	this.send = function(message)

@@ -36,7 +36,13 @@ function Chat()
             'chat-join', 
             function(data) 
             {
-                instance.emit('onJoin', data);
+                var room = instance.availableRooms[data.roomName];
+                if (room == null)
+                    return; /* The room is not available. */
+                var user = new User(data.userName);
+                room.addUser(user);
+
+                instance.emit('onJoin', user);
             }
         );
         
@@ -70,7 +76,15 @@ function Chat()
             'chat-leave', 
             function(userName)
             {
-                alert(userName + ' is offline');
+                instance
+                    .availableRooms
+                    .forEach(
+                        function(room){
+                            room.removeUser(userName);
+                        }
+                    );                
+
+                instance.emit('onLeave', userName);
             }
         );
         
