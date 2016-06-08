@@ -17,10 +17,10 @@ function Chat()
 	var instance = this;
     
     /* Properties --> */
-    /* public Observable.Dictionary */ this.joinedRooms    = new Observable.Dictionary(Room);
-    /* public Observable.Dictionary */ this.availableRooms = new Observable.Dictionary(Room);
-    /* public Room                  */ this.currentRoom    = null;
-    /* public Socket                */ this.socket         = null;
+    /* public Observable.Dictionary<Room> */ this.joinedRooms    = new Observable.Dictionary(Room);
+    /* public Observable.Dictionary<Room> */ this.availableRooms = new Observable.Dictionary(Room);
+    /* public Room                        */ this.currentRoom    = null;
+    /* public Socket                      */ this.socket         = null;
     /* <-- */
     
     /* Methods --> */
