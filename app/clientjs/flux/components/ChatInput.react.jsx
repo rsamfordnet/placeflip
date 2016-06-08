@@ -40,8 +40,9 @@ module.exports = React.createClass(
                     var state = component.state;
                     
                     state.currentRoomName = chat.currentRoom.name;
-                    state.messages = chat.currentRoom.messages.toArray();
-                    
+                    state.messages        = chat.currentRoom.messages.toArray();
+                    state.connectedUsers  = chat.currentRoom.users.toArray();
+
                     component.setState(state);
                 }
             );

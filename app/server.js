@@ -1,5 +1,5 @@
 /* Configuration */
-var config = require('./config/db.js');
+var config = require('./serverjs/config/db.js');
 var port = process.env.PORT || 8001;
 
 /* Express and HTTP listeners. */
@@ -23,13 +23,13 @@ var mongodb 	    = require('mongodb');
 var mongoClient     = mongodb.MongoClient;
 
 /* Data Repository */
-var repository = require('./rep/init.js')
+var repository = require('./serverjs/rep/init.js')
     .create(
         config.url, 
         mongoClient,
         function()
         {
-            require('./rep/mongodb/users.js').in(repository);
+            require('./serverjs/rep/mongodb/users.js').in(repository);
         },
         function (error)
         {
@@ -123,7 +123,8 @@ app.use(express.static('public'));
 
 
 /* URL Routing and Controllers. */
-require('./controllers/homeController.js').setup(app, repository, requireSession);
+require('./serverjs/controllers/homeController.js').setup(app, repository, requireSession);
+require('./serverjs/controllers/chatController.js').setup(app, repository, requireSession, userSockets);
 
 /* Server starting point. */
 http.listen(

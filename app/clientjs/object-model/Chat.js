@@ -4,7 +4,8 @@
 /* class */     const Message    = require('./Message.js');
 /* class */     const User       = require('./User.js');
 /* object */    const global     = require('./Global.js');
-/* object */    const session    = require('./Session.js')
+/* object */    const session    = require('./Session.js');
+/* object */    const ajax       = require('ajax');
 
 /* class */ Chat.prototype =
 /* inherits from */ Events.EventEmitter.prototype;
@@ -106,7 +107,28 @@ function Chat()
     {
         this.currentRoom = this.joinedRooms[roomName];
         
-        this.emit('onShowRoom');
+        ajax.get(
+            '/chatrooms/' + roomName, 
+            {}, 
+            function(users){
+                /* Overrides the users with whatever is in the server. */
+                instance.currentRoom.users.clear();
+
+                /* Loads connected users from server. */
+                for (var i in users)
+                {
+                    var userName = users[i];
+                    if (userName == session.name)
+                        continue;
+
+                    instance.currentRoom.addUser(
+                        new User(userName)
+                    );
+                }
+
+                instance.emit('onShowRoom');
+            }
+        );
     };
     
     /* public void [emits->onMessageSent, onMessage] */ 
