@@ -4,4 +4,11 @@ var ReactDom  = require('react-dom')
 var ChatInput = require('././clientjs/flux/components/ChatInput.react.jsx');
 var bootstrap = require('bootstrap');
 
-ReactDom.render(<ChatInput />, document.getElementById("app"));
+try
+{
+    ReactDom.render(<ChatInput />, document.getElementById("app"));
+}
+catch(e){ console.log("The application was loaded outside of the its main page.");}
+
+/* Display window when this file is loaded. */
+window.document.body.style='display:visible'
