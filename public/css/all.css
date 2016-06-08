@@ -33,3 +33,35 @@ td{
 {
     width:100%;
 }
+
+.chat-typing
+{
+    color: #c0c0c0
+}
+
+
+.chat-main-container{
+    width:100%
+}
+
+ table, table td{
+    border: 1px solid #f0f0f0;
+}
+
+.chat-main-container .left{
+    padding:15px 0px 0px 20px;
+    width:20%;
+    vertical-align:top;
+    background:#f0f0f0
+}
+.chat-main-container .right{
+    width:80%
+}
+
+.chat-main-container left{
+    width:20%
+}
+
+.chat-main-container right{
+    width:80%
+}

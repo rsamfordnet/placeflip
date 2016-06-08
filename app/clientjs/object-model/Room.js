@@ -83,5 +83,13 @@
 		);
     }
 }
+
+/* public static Room */ Room.fromObject = function(obj)
+{
+	var room = new Room(obj.roomName);
+	
+	return room;
+}
+
 //=>
 module.exports = Room;

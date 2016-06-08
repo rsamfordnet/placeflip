@@ -96,7 +96,7 @@ module.exports = React.createClass(
                 function(data)
                 {
                     if (data.hasText)
-                        $('.chat-typing').text("User " + data.userName + " is typing");
+                        $('.chat-typing').text(data.userName + " is typing");
                     else
                         $('.chat-typing').text("");
                 }
@@ -180,59 +180,75 @@ module.exports = React.createClass(
         {
             return (
                 <div className="chat-container">
-                    <div>
-                        Connected Users 
-                        <ul>
-                            {
-                                this.state.connectedUsers.map(
-                                    function(user) 
-                                    {
-                                        return <li key={user.userName}>{user.userName}</li>
-                                    }
-                                )
-                            }
-                        </ul>
-                    </div>
-                    <div className="chat-typing"></div>
-                    <select onChange={this.onRoomChanged}>
-                        <option>[Select a room]</option>
-                        {
-                            this.state.availableRooms.map(
-                                function(room) 
-                                {
-                                    return <option key={room.roomName}>{room.roomName}</option>
-                                }
-                            )
-                        }
-                    </select>
-                    
-                    <div className="chat-messages-container">
-                        {
-                            this.state.messages.map(
-                                function(message) 
-                                {
-                                    return <div className="chat-message" key={ message.id }> 
-                                        <span><strong>{ message.userName }</strong></span>
-                                        <div className="chat-message">
-                                            {message.text}
-                                        </div>
-                                    </div>
-                                }
-                            )
-                        }
-                    </div>
-                    <table className="chat-inputs-container">
+                    <table className="chat-main-container">
                         <tbody>
                             <tr>
-                                <td className="_-textcell">
-                                    <input type="text" className="chat-text" onChange={ this.onTextChange } onKeyDown={ this.onTyping } onKeyUp={ this.onTypingComplete } />
+                                <td className="left">
+                                    <div>
+                                        <strong>Connected Users</strong>
+                                        {
+                                            (function(state){
+                                                if (state.connectedUsers.length == 0)
+                                                    return <div>You're the only user in this room!</div>
+                                                })
+                                            (this.state)
+                                        }
+                                        <ul>
+                                            {
+                                                this.state.connectedUsers.map(
+                                                    function(user) 
+                                                    {
+                                                        return <li key={user.userName}>{user.userName}</li>
+                                                    }
+                                                )
+                                            }
+                                        </ul>
+                                    </div>
+                                    <select onChange={this.onRoomChanged}>
+                                        <option>[Select a room]</option>
+                                        {
+                                            this.state.availableRooms.map(
+                                                function(room) 
+                                                {
+                                                    return <option key={room.roomName}>{room.roomName}</option>
+                                                }
+                                            )
+                                        }
+                                    </select>
                                 </td>
-                                <td className="_-buttoncell">
-                                    <input type="button" className="chat-button" value="Send" onClick={ this.onSend } />
+                                <td className="right">    
+                                    <div className="chat-messages-container">
+                                        {
+                                            this.state.messages.map(
+                                                function(message) 
+                                                {
+                                                    return <div className="chat-message" key={ message.id }> 
+                                                        <span><strong>{ message.userName }</strong></span>
+                                                        <div className="chat-message">
+                                                            {message.text}
+                                                        </div>
+                                                    </div>
+                                                }
+                                            )
+                                        }
+                                    </div>
+                                    <table className="chat-inputs-container">
+                                        <tbody>
+                                            <tr>
+                                                <td className="_-textcell">
+                                                    <input type="text" className="chat-text" onChange={ this.onTextChange } onKeyDown={ this.onTyping } onKeyUp={ this.onTypingComplete } />
+                                                </td>
+                                                <td className="_-buttoncell">
+                                                    <input type="button" className="chat-button" value="Send" onClick={ this.onSend } />
+                                                </td>
+                                            </tr>
+                                        </tbody>                
+                                    </table>
                                 </td>
                             </tr>
-                        </tbody>                
+                        </tbody>
                     </table>
+                    <div className="chat-typing"></div>
                 </div>
             );
         }

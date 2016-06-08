@@ -24,5 +24,15 @@ module.exports = {
 				return res.send(users);
 			}
 		);
+
+		app.get("/rooms", requireSession,			   
+			function(req, res, next)
+			{
+				return res.send([
+					{ roomName : "Technology"},
+					{ roomName : "Music and Jokes" }
+				]);
+			}
+		);
 	}
 };

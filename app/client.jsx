@@ -8,7 +8,7 @@ try
 {
     ReactDom.render(<ChatInput />, document.getElementById("app"));
 }
-catch(e){ console.log("The application was loaded outside of the its main page.");}
+catch(e){ console.log("The application was loaded outside of the main page.");}
 
-/* Display window when this file is loaded. */
+/* Display "<body>" when this file is loaded. */
 window.document.body.style='display:visible'

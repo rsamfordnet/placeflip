@@ -96,10 +96,23 @@ function Chat()
     /* public void [emits->onRoomsAvailable] */ 
     this.findAvailableRooms = function()
     {
+        ajax.get('/rooms', 
+            {}, 
+            function(rooms){
+                for (var index in rooms)
+                {
+                    var room = rooms[index];
+                    instance
+                        .availableRooms
+                        .add(room.roomName, Room.fromObject(room));
+                }
+                instance.emit('onRoomsAvailable');
+            }
+        );
+        /*
         this.availableRooms.add("Fun Jokes", new Room("Fun Jokes"));
         this.availableRooms.add("Tech Stuff", new Room("Tech Stuff"));
-        
-        this.emit('onRoomsAvailable');
+        */
     };
     
     /* public void [emits->onShowRoom] */
