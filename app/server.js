@@ -17,28 +17,9 @@ app.use( bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
 
+/* Classes */
+/* class */ const Repository = require('./serverjs/data/Repository.js')
 
-/* Mongo */
-var mongodb 	    = require('mongodb');
-var mongoClient     = mongodb.MongoClient;
-
-/* Data Repository */
-var repository = require('./serverjs/rep/init.js')
-    .create(
-        config.url, 
-        mongoClient,
-        function()
-        {
-            require('./serverjs/rep/mongodb/users.js').in(repository);
-        },
-        function (error)
-        {
-            console.log(error);
-        }
-    );
-
-/* Authentication Setup */
-var /* middleware */ requireSession = require('./serverjs/authentication/passport.js')(app, repository);
 
 /* io setup. */
 var userSockets = {};
@@ -121,10 +102,18 @@ app.engine('.hbs', exphbs({defaultLayout: 'master', extname: '.hbs'}));
 app.set('view engine', '.hbs');
 app.use(express.static('public'));
 
+/* Data Repository */
+var repository = new Repository(onRepositoryReady);
+function onRepositoryReady()
+{
+    /* Authentication Setup */
+    var /* middleware */ requireSession = require('./serverjs/authentication/passport.js')(app, repository);
 
-/* URL Routing and Controllers. */
-require('./serverjs/controllers/homeController.js').setup(app, repository, requireSession);
-require('./serverjs/controllers/chatController.js').setup(app, repository, requireSession, userSockets);
+    /* URL Routing and Controllers. */
+    require('./serverjs/controllers/homeController.js').setup(app, repository, requireSession);
+    require('./serverjs/controllers/chatController.js').setup(app, repository, requireSession, userSockets);
+}
+
 
 /* Server starting point. */
 http.listen(
