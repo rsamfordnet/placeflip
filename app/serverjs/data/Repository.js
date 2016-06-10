@@ -1,6 +1,7 @@
-/* object  */ const mongodb        = require('mongodb');
-/* object  */ const config         = require('../config/db.js');
-/* class   */ const UserRepository = require('./mongodb/UserRepository.js')
+/* object */ const mongodb        = require('mongodb');
+/* object */ const config         = require('../config/db.js');
+/* class  */ const UserRepository = require('./mongodb/UserRepository.js')
+/* class  */ const ChatRepository = require('./mongodb/ChatRepository.js')
 
 /* public class */ function Repository(/* Callback */ ready)
 {
@@ -41,6 +42,8 @@
     /* private */ function initializeMongoDbRepositories(connection)
     {
         instance.users = new UserRepository(connection);
+        instance.chat  = new ChatRepository(connection);
+
         console.log("MongoDb - User Repository initialized.");
     }
 }

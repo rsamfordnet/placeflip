@@ -65,3 +65,7 @@ td{
 .chat-main-container right{
     width:80%
 }
+
+select {
+    width : 80%
+}

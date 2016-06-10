@@ -92,6 +92,17 @@ function Chat()
         
         global.socket = socket;
     };
+
+    this.createRoom = function(roomName)
+    {
+        ajax.post("/rooms", 
+            { roomName : roomName },
+            function(){
+                instance.emit("onRoomCreated");
+                instance.findAvailableRooms();
+            }
+        );
+    }
     
     /* public void [emits->onRoomsAvailable] */ 
     this.findAvailableRooms = function()

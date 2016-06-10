@@ -109,6 +109,14 @@ module.exports = React.createClass(
                     alert(error);
                 }
             );
+
+            chat.on(
+                'onRoomCreated',
+                function()
+                {
+                    $("#roomName").val("");
+                }
+            );
             
             /* Starts the chat. */
             chat.start();
@@ -175,6 +183,12 @@ module.exports = React.createClass(
                 1
             );
         },
+
+        onCreateRoom : function()
+        {
+            var roomName = $("#roomName").val();
+            chat.createRoom(roomName);
+        },
         
         render : function()
         {
@@ -204,7 +218,10 @@ module.exports = React.createClass(
                                             }
                                         </ul>
                                     </div>
-                                    <select onChange={this.onRoomChanged}>
+                                    <input type="text" id="roomName"></input>
+                                    <input type="button" onClick={this.onCreateRoom} value="Create Room" />
+                                    <strong>Rooms</strong>
+                                    <select onChange={this.onRoomChanged} id="roomsDropDown">
                                         <option>[Select a room]</option>
                                         {
                                             this.state.availableRooms.map(

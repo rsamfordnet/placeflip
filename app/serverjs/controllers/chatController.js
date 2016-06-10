@@ -25,13 +25,26 @@ module.exports = {
 			}
 		);
 
+		app.post('/rooms', 
+			function(req, res){
+				repository.chat.createRoom(
+					req.body,
+					function()
+					{
+						res.sendStatus(200);
+					}
+				);
+			}
+		);
+
 		app.get("/rooms", requireSession,			   
-			function(req, res, next)
-			{
-				return res.send([
-					{ roomName : "Technology"},
-					{ roomName : "Music and Jokes" }
-				]);
+			function(req, res, next){
+				repository.chat.getRooms(
+					function(rooms)
+					{
+						return res.send(rooms);
+					}
+				);
 			}
 		);
 	}

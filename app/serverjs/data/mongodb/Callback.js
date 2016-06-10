@@ -13,7 +13,7 @@ module.exports =
             {
                 console.log("Mongo DB command complete.")
                 if (success)
-                    success();
+                    success(result);
             }
         };
         
