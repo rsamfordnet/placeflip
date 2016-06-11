@@ -220,6 +220,7 @@ module.exports = React.createClass(
                                     </div>
                                     <input type="text" id="roomName"></input>
                                     <input type="button" onClick={this.onCreateRoom} value="Create Room" />
+                                    <br />
                                     <strong>Rooms</strong>
                                     <select onChange={this.onRoomChanged} id="roomsDropDown">
                                         <option>[Select a room]</option>
