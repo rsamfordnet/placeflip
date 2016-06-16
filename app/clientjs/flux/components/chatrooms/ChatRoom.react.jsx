@@ -10,13 +10,26 @@ class ChatRoom extends React.Component
 
         this.handleOnClick = this.handleOnClick.bind(this);
         
-        this.app.chat.on(
-            'onShowRoom', 
-            function(){
+        this.room.on(
+            'onShow', 
+            () => {
                 window.onResize();
-                component.room.selected = 
-                    app.chat.currentRoom.roomName == component.room.roomName;
+                component.room.selected = true;
+                component.setState({ room : component.room } );
+            }
+        );
 
+        this.room.on(
+            'onUnselected', 
+            () => {
+                component.room.selected = false;
+                component.setState({ room : component.room } );
+            }
+        );
+
+        this.room.on(
+            'onMessage',
+            (message) => {
                 component.setState({ room : component.room } );
             }
         );
@@ -32,16 +45,37 @@ class ChatRoom extends React.Component
     get selectedClass()
     {
         if (this.room.selected)
+        {
             return "chat-room-selected";
+        }
         else
-            return "chat-room";
+        {
+            if (this.room.joined)
+            {
+                if (this.room.unseenMessages > 0 )
+                    return "chat-unseenMessages";
+                else
+                    return "chat-room-joined";
+            }
+            else
+            {
+                return "chat-room";
+            }
+        }
+    }
+
+    get unseenMessagesText()
+    {
+        if (this.room.unseenMessages > 0)
+            return "(" + this.room.unseenMessages + ")";
+        return "";
     }
 
     render()
     {
         return (
             <div className={ this.selectedClass } onClick={ this.handleOnClick }>
-                {this.room.roomName}
+                {this.room.roomName} {this.unseenMessagesText}
             </div>
         );
     }

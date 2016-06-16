@@ -238,7 +238,8 @@ select {
     width:600px;
     border:1px solid lightgray;
     background-color:white;
-    border-radius: 5px
+    border-radius: 5px;
+    cursor: pointer
 }
 
 .chat-room-selected{
@@ -249,7 +250,32 @@ select {
     margin: 10px;
     width:600px;
     border:1px solid lightgray;
-    border-radius: 5px
+    border-radius: 5px;
+    cursor: pointer
+}
+
+.chat-room-joined{
+    background:#337ab7;
+    color:white;
+    font-weight: bold;
+    padding: 20px;
+    margin: 10px;
+    width:600px;
+    border:1px solid lightgray;
+    border-radius: 5px;
+    cursor: pointer
+}
+
+.chat-unseenMessages{
+  background:#ff9933;
+  color:white;
+  font-weight: bold;
+  padding: 20px;
+  margin: 10px;
+  width:600px;
+  border:1px solid lightgray;
+  border-radius: 5px;
+  cursor: pointer
 }
 
 .chat-room-container{

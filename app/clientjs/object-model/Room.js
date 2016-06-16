@@ -3,25 +3,51 @@
 /* class */ 	import Message    from './Message.js';
 /* object */    import session    from './Session.js';
 /* object */    import global     from './Global.js';
+/* namespace */ import Events     from 'events';
 
-class Room
+class Room extends Events.EventEmitter
 {
 	constructor(roomName)
 	{
+		super();
+		
 		if (roomName == undefined)
 			throw 'roomName cannot be undefined.';
 		
-		/* public Room 							 */ this.roomName = roomName;
-		/* public Observable.Dictionary<User> 	 */ this.users    = new Observable.Dictionary(User);
-		/* public Observable.Collection<Message> */ this.messages = new Observable.Collection(Message);
-		/* public bool							 */ this.isTyping = false;
-		/* public bool							 */ this.selected = false;
+		/* public Room 							 */ this.roomName 		= roomName;
+		/* public Observable.Dictionary<User> 	 */ this.users    		= new Observable.Dictionary(User);
+		/* public Observable.Collection<Message> */ this.messages 		= new Observable.Collection(Message);
+		/* public bool							 */ this.isTyping 		= false;
+		/* public bool							 */ this.selected 		= false;
+		/* public bool							 */ this.joined   		= false;
+		/* public int 							 */ this.unseenMessages = 0;
 	}
 	
 	/* public void */
 	addUser(/* User */ user )
 	{
 		this.users.add(user.userName, user);
+	}
+
+	addMessage( /* Message*/ message)
+	{
+		if (!this.selected)
+			this.unseenMessages += 1;
+		else
+			this.unseenMessages = 0;
+
+		this.messages.add(message);
+		this.emit("onMessage", message);
+	}
+
+	show()
+	{
+		this.emit("onShow");
+	}
+
+	unselect()
+	{
+		this.emit("onUnselected");
 	}
 
 	/* public void */
@@ -85,6 +111,9 @@ class Room
 				roomName : this.roomName
 			}
 		);
+
+		this.joined = true;
+		this.unseenMessages = 0;
     }
 }
 

@@ -61,11 +61,13 @@ class Chat extends Events.EventEmitter
                 
                 /* Brokes the message to the right room. */
                 var room = instance.joinedRooms[data.roomName];
-                room.messages.add(message);
+                room.addMessage(message);
                 
                 /* Notifies the message only if the selected room is open. */
                 if (instance.currentRoom.roomName == data.roomName)
+                {
                     instance.emit('onMessage', message);    
+                }
             }
         );
 
@@ -147,6 +149,7 @@ class Chat extends Events.EventEmitter
             {
                 /* Overrides the users with whatever is in the server. */
                 instance.currentRoom.users.clear();
+                instance.joinedRooms.forEach((room) => { room.unselect(); })
 
                 /* Loads connected users from server. */
                 for (var i in users)
@@ -161,6 +164,7 @@ class Chat extends Events.EventEmitter
                 }
 
                 instance.emit('onShowRoom');
+                instance.currentRoom.show();
             }
         );
     }
