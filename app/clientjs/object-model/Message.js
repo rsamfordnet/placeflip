@@ -1,11 +1,14 @@
-var guid = require('./Guid.js');
-
-/* class */ function Message(text, userName, roomName)
+import guid from './Guid.js';
+ 
+class Message
 {
-	/* public string */ this.id = guid(); 
-	/* public string */ this.text = text;
-	/* public string */ this.userName = userName;
-    /* public string */ this.roomName = roomName; 
+	constructor(text, userName, roomName)
+	{
+		/* public string */ this.id = guid(); 
+		/* public string */ this.text = text;
+		/* public string */ this.userName = userName;
+		/* public string */ this.roomName = roomName;
+	}
 }
 //=>
-module.exports = Message;
+export default Message;

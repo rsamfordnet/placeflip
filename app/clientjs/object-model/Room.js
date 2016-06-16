@@ -1,33 +1,37 @@
-/* namespace */ const Observable = require('observables');
-/* class */		const User    	 = require('./User.js');
-/* class */ 	const Message    = require('./Message.js');
-/* object */    const session    = require('./Session.js');
-/* object */    const global     = require('./Global.js');
+/* namespace */ import Observable from 'observables';
+/* class */		import User    	  from './User.js';
+/* class */ 	import Message    from './Message.js';
+/* object */    import session    from './Session.js';
+/* object */    import global     from './Global.js';
 
-/* class */ function Room(roomName)
+class Room
 {
-	if (roomName == undefined)
-		throw 'roomName cannot be undefined.';
+	constructor(roomName)
+	{
+		if (roomName == undefined)
+			throw 'roomName cannot be undefined.';
 		
-    /* public Room 							 */ this.roomName = roomName;
-	/* public Observable.Dictionary<User> 	 */ this.users    = new Observable.Dictionary(User);
-	/* public Observable.Collection<Message> */ this.messages = new Observable.Collection(Message);
-	/* public bool							 */ this.isTyping = false;
-
+		/* public Room 							 */ this.roomName = roomName;
+		/* public Observable.Dictionary<User> 	 */ this.users    = new Observable.Dictionary(User);
+		/* public Observable.Collection<Message> */ this.messages = new Observable.Collection(Message);
+		/* public bool							 */ this.isTyping = false;
+		/* public bool							 */ this.selected = false;
+	}
+	
 	/* public void */
-	this.addUser = function(/* User */ user )
+	addUser(/* User */ user )
 	{
 		this.users.add(user.userName, user);
-	};
+	}
 
 	/* public void */
-	this.removeUser = function(/* string */ userName)
+	removeUser(/* string */ userName)
 	{
 		this.users.remove(userName);
-	};
+	}
 
 	/* public void */ 
-	this.send = function(message)
+	send(message)
 	{
 		if (!(message instanceof Message))
 			throw 'Invalid message type';
@@ -37,10 +41,10 @@
 
         this.sendTyping(false);
 		this.messages.add(message);
-	};
+	}
 
 	/* public void */
-	this.sendTyping = function(hasText)
+	sendTyping(hasText)
 	{
 		if (!this.isTyping && hasText)
 		{
@@ -69,10 +73,10 @@
 				}
 			);
 		}
-	};
+	}
     
     /* public void */ 
-	this.join = function()
+	sendJoin()
     {
         global.socket.emit(
 			'chat-join', 

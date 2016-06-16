@@ -1,9 +1,11 @@
-var $ = require('jQuery');
+import $ from 'jQuery';
 
-
-/* class */ function User(userName)
+/* class */class User
 {
-	this.userName = userName;
+	constructor(userName)
+	{
+		this.userName = userName;
+	}
 }
 //=>
-module.exports = User;
+export default User;

@@ -1,21 +1,30 @@
 
 <form method="post">
-    <table>
-        <tr>
-            <td>Email</td>
-            <td><input type="text" name="email" /></td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td><input type="password" name="password" /></td>
-        </tr>
-        <tr>
-            <td colspan="2"><input type="submit" name="Login" value="Sign In"/></td>
-        </tr>
-    </table>
-    <br />
-    <div>
-        Not a member yet? <a href="/signup">Sign Up!</a>
+    <div class="container">
+        <div>
+            <h1>Placeflip</h1>
+            <hr />
+            <div>
+                Placeflip is an experimental chat app built using React/Flux by Jose Yanez
+            </div>
+        </div>
+        <table>
+            <tr>
+                <td>Email</td>
+                <td><input type="text" name="email" /></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="password" name="password" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" name="Login" value="Sign In"/></td>
+            </tr>
+        </table>
+        <br />
+        <div>
+            Not a member yet? <a href="/signup">Sign Up!</a>
+        </div>
+        {{message}}
     </div>
-    {{message}}
 </form>

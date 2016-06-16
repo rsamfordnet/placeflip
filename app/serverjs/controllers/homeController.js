@@ -54,7 +54,13 @@ module.exports = {
 			function(req, res)
 			{
 				console.log("Incoming user: " + req.user.name);
-				res.render('index', req.user);
+				res.render(
+					'index', 
+					{ 
+						data   : req.user, 
+						layout : false
+					}
+				);
 			}
 		);
 	}

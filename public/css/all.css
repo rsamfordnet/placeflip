@@ -1,3 +1,17 @@
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
 .chat-message
 {
     padding:5px;
@@ -11,8 +25,8 @@ td{
 
 .chat-messages-container
 {
-    height: 300px;
-    overflow-y: scroll
+    width:100%;
+    overflow-y: scroll;
 }
 
 .chat-message{
@@ -39,13 +53,8 @@ td{
     color: #c0c0c0
 }
 
-
 .chat-main-container{
     width:100%
-}
-
- table, table td{
-    border: 1px solid #f0f0f0;
 }
 
 .chat-main-container .left{
@@ -68,4 +77,181 @@ td{
 
 select {
     width : 80%
+}
+
+.app-container
+{
+    background: #f0f0f0;
+    height: 100vh;
+    overflow-x:hidden
+}
+
+.app-panel
+{
+    height: 100vh;
+}
+
+
+
+/* 
+	With the help of: http://nicolasgallagher.com/pure-css-speech-bubbles/demo/ 
+	More demos available for more and better bubbles.
+*/
+
+.bubble-message-mine {
+	position:relative;
+	padding:15px;
+	margin-top:5px;
+	margin-right:50px;
+	margin-left:10px;
+	width: 70%;
+	color:#000;
+	background:#ffffff; /* default background for browsers without gradient support */
+	/* css3 */
+	background:-webkit-gradient(linear, 0 0, 0 100%, from(#cfe6fc), to(#ffffff));
+	background:-moz-linear-gradient(#cfe6fc, #ffffff);
+	background:-o-linear-gradient(#cfe6fc, #ffffff);
+	background:linear-gradient(#cfe6fc, #ffffff);
+	-webkit-border-radius:10px;
+	-moz-border-radius:10px;
+	border-radius:10px;
+	border:4px solid #cfe6fc;
+
+    white-space: pre-wrap;      /* CSS3 */   
+    white-space: -moz-pre-wrap; /* Firefox */    
+    white-space: -pre-wrap;     /* Opera <7 */   
+    white-space: -o-pre-wrap;   /* Opera 7 */    
+    word-wrap: break-word;      /* IE */
+}
+
+/* Arrow Location. */
+.bubble-message-mine.left:after {
+    top: 16px;
+    left: -10px;
+    bottom: auto;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent #cfe6fc;
+}
+
+/* Arrow */
+.bubble-message-mine:after {
+  content:"";
+  position:absolute;
+  bottom:-15px; /* value = - border-top-width - border-bottom-width */
+  left:50px; /* controls horizontal position */
+  border-width:15px 15px 0; /* vary these values to change the angle of the vertex */
+  border-style:solid;
+  border-color:#bacbf7 transparent;
+  /* reduce the damage in FF3.0 */
+  display:block;
+  width:0;
+}
+
+
+.bubble-message-theirs {
+  position:relative;
+  padding:15px;
+  margin-top:5px;
+  margin-left: 90px;
+  width:70%;
+  color:#000;
+  background:#ffffff; /* default background for browsers without gradient support */
+  /* css3 */
+  background:-webkit-gradient(linear, 0 0, 0 100%, from(#e7e4e6), to(#ffffff));
+  background:-moz-linear-gradient(#e7e4e6, #ffffff);
+  background:-o-linear-gradient(#e7e4e6, #ffffff);
+  background:linear-gradient(#e7e4e6, #ffffff);
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  border-radius:10px;
+  border:4px solid #e7e4e6;
+
+  white-space: pre-wrap;      /* CSS3 */   
+  white-space: -moz-pre-wrap; /* Firefox */    
+  white-space: -pre-wrap;     /* Opera <7 */   
+  white-space: -o-pre-wrap;   /* Opera 7 */    
+  word-wrap: break-word;      /* IE */
+}
+
+
+.bubble-message-theirs.right:after {
+  top:16px; /* controls vertical position */
+  right:-10px; /* value = - border-left-width - border-right-width */
+  bottom:auto;
+  left:auto;
+  border-width:10px 0 10px 10px;
+  border-color:transparent #e7e4e6;
+}
+
+
+.bubble-message-theirs:after {
+  content:"";
+  position:absolute;
+  bottom:-15px; /* value = - border-top-width - border-bottom-width */
+  left:50px; /* controls horizontal position */
+  border-width:15px 15px 0; /* vary these values to change the angle of the vertex */
+  border-style:solid;
+  border-color:#bacbf7 transparent;
+  /* reduce the damage in FF3.0 */
+  display:block;
+  width:0;
+}
+
+.chat-table{
+    max-height:100%;
+    width:100%;
+    border-collapse: collapse;
+}
+.chat-table.container{
+	width:350px
+}
+.chat-table.header
+{
+    background:#364062;
+    color:white;
+    height:100px
+}
+.chat-table.header td{
+    padding:15px
+}
+.chat-table.body
+{
+    background:#337ab7;
+    height:100%;
+    max-height:100%
+}
+.chat-table.footer
+{
+    background:#364062;
+    height:50px
+}
+.chat-table.footer input
+{
+    height:50px;
+    outline: none
+}
+
+
+.chat-room{
+    padding: 20px;
+    margin: 10px;
+    width:600px;
+    border:1px solid lightgray;
+    background-color:white;
+    border-radius: 5px
+}
+
+.chat-room-selected{
+    background:#364062;
+    color:white;
+    font-weight: bold;
+    padding: 20px;
+    margin: 10px;
+    width:600px;
+    border:1px solid lightgray;
+    border-radius: 5px
+}
+
+.chat-room-container{
+    
 }

@@ -48,4 +48,6 @@ Dispatcher.register(function (action) {
 });
 
 
+class Hello{}
+
 module.exports = ChatStore;

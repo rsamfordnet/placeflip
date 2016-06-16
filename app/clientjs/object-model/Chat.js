@@ -1,33 +1,36 @@
-/* namespace */ const Observable = require('observables');
-/* namespace */ const Events     = require('events');
-/* class */     const Room       = require('./Room.js');
-/* class */     const Message    = require('./Message.js');
-/* class */     const User       = require('./User.js');
-/* object */    const global     = require('./Global.js');
-/* object */    const session    = require('./Session.js');
-/* object */    const ajax       = require('ajax');
+/* namespace */ import Observable from 'observables';
+/* namespace */ import Events     from 'events';
+/* class */     import Room       from './Room.js';
+/* class */     import Message    from './Message.js';
+/* class */     import User       from './User.js';
+/* object */    import global     from './Global.js';
+/* object */    import session    from './Session.js';
+/* object */    import ajax       from 'ajax';
 
-/* class */ Chat.prototype =
-/* inherits from */ Events.EventEmitter.prototype;
-function Chat()
+/* class Chat.prototype = */
+/* inherits from Events.EventEmitter.prototype; */
+class Chat extends Events.EventEmitter
 {
-	/* base */ Events.EventEmitter.call(this);
-    
-    /* this -> */
-	var instance = this;
-    
-    /* Properties --> */
-    /* public Observable.Dictionary<Room> */ this.joinedRooms    = new Observable.Dictionary(Room);
-    /* public Observable.Dictionary<Room> */ this.availableRooms = new Observable.Dictionary(Room);
-    /* public Room                        */ this.currentRoom    = null;
-    /* public Socket                      */ this.socket         = null;
-    /* <-- */
+	/* base Events.EventEmitter.call(this); */
+    constructor()
+    {
+        super();
+
+        /* Properties --> */
+        /* public Observable.Dictionary<Room> */ this.joinedRooms    = new Observable.Dictionary(Room);
+        /* public Observable.Dictionary<Room> */ this.availableRooms = new Observable.Dictionary(Room);
+        /* public Room                        */ this.currentRoom    = null;
+        /* public Socket                      */ this.socket         = null;
+        /* <-- */
+
+        this.start();
+    }
     
     /* Methods --> */
-    
     /* public void [emits->onJoin, onMessage] */ 
-    this.start = function()
+    start()
     {
+        var instance = this;
         var socket = window.io();
          
         socket.emit('chat-start', session.name);
@@ -35,7 +38,7 @@ function Chat()
         
         socket.on(
             'chat-join', 
-            function(data) 
+            (data) =>  
             {
                 var room = instance.availableRooms[data.roomName];
                 if (room == null)
@@ -49,7 +52,7 @@ function Chat()
         
         socket.on(
             'chat-message', 
-            function(data) 
+            (data) => 
             {
                 console.log("chat-message:" + data);
                 
@@ -68,15 +71,14 @@ function Chat()
 
         socket.on(
             'chat-typing', 
-            function(data){
+            (data) => {
                 instance.emit('onTyping', data)
             }
         );
         
         socket.on(
             'chat-leave', 
-            function(userName)
-            {
+            (userName) => {
                 instance
                     .availableRooms
                     .forEach(
@@ -93,23 +95,29 @@ function Chat()
         global.socket = socket;
     };
 
-    this.createRoom = function(roomName)
+    createRoom(roomName)
     {
+        var instance = this;
+
         ajax.post("/rooms", 
             { roomName : roomName },
-            function(){
+            () =>
+            {
                 instance.emit("onRoomCreated");
                 instance.findAvailableRooms();
             }
         );
     }
-    
-    /* public void [emits->onRoomsAvailable] */ 
-    this.findAvailableRooms = function()
+
+    /* public async [emits->onShowRoom] */ 
+    findAvailableRooms()
     {
+        var instance = this;
+        
         ajax.get('/rooms', 
             {}, 
-            function(rooms){
+            (rooms) => 
+            {
                 for (var index in rooms)
                 {
                     var room = rooms[index];
@@ -124,17 +132,19 @@ function Chat()
         this.availableRooms.add("Fun Jokes", new Room("Fun Jokes"));
         this.availableRooms.add("Tech Stuff", new Room("Tech Stuff"));
         */
-    };
+    }
     
     /* public void [emits->onShowRoom] */
-    this.switchRoom = function(roomName)
+    switchRoom(roomName)
     {
+        var instance = this;
         this.currentRoom = this.joinedRooms[roomName];
         
         ajax.get(
             '/chatrooms/' + roomName, 
             {}, 
-            function(users){
+            (users) => 
+            {
                 /* Overrides the users with whatever is in the server. */
                 instance.currentRoom.users.clear();
 
@@ -153,10 +163,10 @@ function Chat()
                 instance.emit('onShowRoom');
             }
         );
-    };
+    }
     
     /* public void [emits->onMessageSent, onMessage] */ 
-    this.sendMessage = function(text, userName)
+    sendMessage(text, userName)
     {
         if (this.currentRoom == null)
         {
@@ -170,25 +180,25 @@ function Chat()
         
         this.emit('onMessageSent');
         this.emit('onMessage', newMessage);
-    };
+    }
 
     /* public void [] */
-    this.sendTyping = function(hastext)
+    sendTyping(hastext)
     {
         if (this.currentRoom == null)
             return;
 
         this.currentRoom.sendTyping(hastext);
-    };
+    }
     
     /* public void [emits->onShowRoom] */ 
-    this.joinRoom = function(roomName)
+    joinRoom(roomName)
     {
         this.joinedRooms.add(roomName, this.availableRooms[roomName]);
         this.switchRoom(roomName);
-        this.currentRoom.join(roomName);
+        this.currentRoom.sendJoin(roomName);
     }
     /* <-- */
 }
-//=>
-module.exports = new Chat();
+
+export default Chat;

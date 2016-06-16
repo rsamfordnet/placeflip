@@ -1,8 +1,11 @@
-<div>
-    <p>Enjoy your chat!</p>
-    <div id="sessionContainer" style="display:none">{{name}}</div>
-    
-    <div><strong>Hi {{ name }}</strong></div>
-    <hr />
-    <div id='app'><div>
-</div>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link href="css/all.css" rel="Stylesheet"></link>
+    </head>
+    <body style='display:none'><div class="app-container container" id="app"></div>
+        <div id="sessionContainer" style="display:none">{{name}}</div>
+        {{>footerscripts}}
+    </body>
+</html>

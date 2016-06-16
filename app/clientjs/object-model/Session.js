@@ -1,6 +1,6 @@
 var $ = require('jQuery');
 
-module.exports = {
+export default {
     name    : $("#sessionContainer").text(),
     isvalid : function()
     {

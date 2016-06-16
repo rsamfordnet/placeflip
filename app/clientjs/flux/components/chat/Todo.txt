@@ -1,0 +1,15 @@
+<input type="text" id="roomName"></input>
+<input type="button" onClick={this.onCreateRoom} value="Create Room" />
+<br />
+<strong>Rooms</strong>
+<select onChange={this.onRoomChanged} id="roomsDropDown">
+    <option>[Select a room]</option>
+    {
+        this.state.availableRooms.map(
+            function(room) 
+            {
+                return <option key={room.roomName}>{room.roomName}</option>
+            }
+        )
+    }
+</select>

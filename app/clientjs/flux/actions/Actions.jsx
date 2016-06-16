@@ -1,12 +1,13 @@
-var $          = require('jQuery');
-var Dispatcher = require('../dispatcher/Dispatcher.jsx');
-var Constants  = require('../constants/Constants.jsx');
-var Chat       = require('../../object-model/Chat.js');
+import $          from 'jQuery';
+import Dispatcher from '../dispatcher/Dispatcher.jsx';
+import Constants  from '../constants/Constants.jsx';
+/* object */   const  chat = require('../../object-model/Chat.js');
 
-const Actions = {
-    sendMessage : function(message, sendThroughSocket)
+class Actions 
+{
+    sendMessage(message, sendThroughSocket)
     {
-        Chat.sendMessage(message.text, message.user);
+        chat.sendMessage(message.text, message.user);
         
         Dispatcher.dispatch(
             { 
@@ -14,22 +15,23 @@ const Actions = {
                 message    : message
             }
         );
-    },
+    }
 
-    sendTyping : function(data)
+    sendTyping(data)
     {
-        Chat.sendTyping(data.hasText);
-    },
+        chat.sendTyping(data.hasText);
+    }
     
-    joinRoom : function(roomName)
+    joinRoom(roomName)
     {
-        Chat.joinRoom(roomName);
-    },
+        chat.joinRoom(roomName);
+    }
     
-    showAvailableRooms : function()
+    showAvailableRooms()
     {
-        Chat.findAvailableRooms()
+        chat.findAvailableRooms()
     }
 };
 
-module.exports = Actions;
+// =>
+export default new Actions();

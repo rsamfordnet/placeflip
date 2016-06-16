@@ -1,16 +1,22 @@
 var $ = window.jQuery = window.$ = require('jQuery');
 var React     = require('react');
 var ReactDom  = require('react-dom')
-var ChatInput = require('././clientjs/flux/components/ChatInput.react.jsx');
+var Main      = require('././clientjs/flux/components/Main.react.jsx');
 var bootstrap = require('bootstrap');
+import chatWindowPlugin from '././clientjs/flux/components/plugins/chatwindow.jquery.js';
+import App from '././clientjs/object-model/App.js';
 
-try
-{
-    ReactDom.render(<ChatInput />, document.getElementById("app"));
-}
-catch(e){ console.log("The application was loaded outside of the main page.");}
+/* Creates app instance. */
+var app = new App();
+
+/* Renders Main. */
+ReactDom.render(
+    <Main app={ app } />, 
+    document.getElementById("app")
+);
 
 /* Display "<body>" when this file is loaded. */
-//window.document.body.style='display:visible'
-
 $("body").show();
+
+/* Calls the chat window plugin. */
+chatWindowPlugin();
