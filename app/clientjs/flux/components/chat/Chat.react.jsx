@@ -29,10 +29,7 @@ class Chat extends React.Component
             connectedUsers  : [],
             currentRoomName : ""
         };
-    }
-    
-    componentDidMount()
-    {      
+
         chat.on('onShowRoom', 
             function()
             {
@@ -41,6 +38,19 @@ class Chat extends React.Component
                 state.currentRoomName = chat.currentRoom.roomName;
                 state.messages        = chat.currentRoom.messages.toArray();
                 state.connectedUsers  = chat.currentRoom.users.toArray();
+
+                component.setState(state);
+            }
+        );
+
+        chat.on('onNoRoomToShow', 
+            function()
+            {
+                var state = component.state;
+                
+                state.currentRoomName = "";
+                state.messages        = [];
+                state.connectedUsers  = [];
 
                 component.setState(state);
             }
@@ -117,6 +127,12 @@ class Chat extends React.Component
             }
         );
     }
+    
+    componentDidUpdate()
+    {      
+        if (window.onResize)
+            window.onResize();
+    }
 
     refreshParticipants()
     {
@@ -187,33 +203,56 @@ class Chat extends React.Component
     
     render()
     {
+        var headerPanel = null;
+        var footerPanel = null;
+        var middlePanel = null;
+
+        if (chat.currentRoom)
+        {
+            headerPanel = <div>
+                <h1>{chat.currentRoom ? chat.currentRoom.roomName : ""}</h1>
+                <ChatUserList 
+                    users = { this.state.connectedUsers } />
+                <div className="chat-typing"></div>
+            </div>;
+
+            middlePanel = <div className="chat-messages-container">
+                <ChatMessageList
+                    messages = { this.state.messages  } />
+            </div>;
+
+            footerPanel = <ChatInput
+                onTextChange     = { this.onTextChange }
+                onTyping         = { this.onTyping }
+                onTypingComplete = { this.onTypingComplete }
+                onSend           = { this.onSend }
+            />;
+        }
+        else
+        {
+            headerPanel = <div></div>;
+            middlePanel = <div className="chat-messages-container chat-noMessages"><span>No room is selected</span></div>;
+            footerPanel = <div></div>;
+        }
+
         return (
             <table className="chat-table container">
                 <tbody>
                     <tr className="chat-table header">
                         <td>
-                            <h1>{chat.currentRoom ? chat.currentRoom.roomName : ""}</h1>
-                            <ChatUserList 
-                                users = { this.state.connectedUsers } />
+                            {headerPanel}
                         </td>
                     </tr>
                     <tr className="chat-table body">
                         <td>
-                            <div className="chat-messages-container">
-                                <ChatMessageList
-                                    messages = { this.state.messages  } />
-                            </div>
+                            {middlePanel}
+
                         </td>
                     </tr>
                     <tr className="chat-table footer">
                         <td>
-                            <ChatInput
-                                onTextChange     = { this.onTextChange }
-                                onTyping         = { this.onTyping }
-                                onTypingComplete = { this.onTypingComplete }
-                                onSend           = { this.onSend }
-                            />
-                            <div className="chat-typing"></div>          
+                            {footerPanel}
+                            
                         </td>
                     </tr>
                 </tbody>

@@ -56,6 +56,26 @@ io.on(
         );
 
         socket.on(
+            'chat-exit', 
+            function(room)
+            {
+                var roomName = room.roomName;
+                var userName = room.userName;
+                
+                var userSocket = userSockets[this.id];
+                socket.roomName = null;
+                
+                socket
+                    .broadcast
+                    .in(room.roomName)
+                    .emit('chat-leave', userSocket.userName);
+                
+                console.log(userName + ' left ' + roomName);
+                socket.leave(roomName);
+            }
+        );
+
+        socket.on(
             'chat-typing',
             function(data)
             {

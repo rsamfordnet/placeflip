@@ -278,6 +278,20 @@ select {
   cursor: pointer
 }
 
-.chat-room-container{
-    
+
+
+.chat-noMessages{
+    display: table;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+  background-color:#364062
+}
+
+.chat-noMessages span{
+    display: table-cell;
+    vertical-align: middle;
+    color:white;
+    font-size:27px
+
 }

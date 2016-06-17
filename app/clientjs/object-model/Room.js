@@ -10,7 +10,7 @@ class Room extends Events.EventEmitter
 	constructor(roomName)
 	{
 		super();
-		
+
 		if (roomName == undefined)
 			throw 'roomName cannot be undefined.';
 		
@@ -67,6 +67,21 @@ class Room extends Events.EventEmitter
 
         this.sendTyping(false);
 		this.messages.add(message);
+	}
+
+	sendExit()
+	{
+		this.isTyping = false;
+		this.selected = false;
+		this.joined   = false;
+		
+		global.socket.emit(
+			'chat-exit', 
+			{ 
+				userName : session.name, 
+				roomName : this.roomName 
+			}
+		);
 	}
 
 	/* public void */

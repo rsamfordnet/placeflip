@@ -9,6 +9,7 @@ class ChatRoom extends React.Component
         let component = this;
 
         this.handleOnClick = this.handleOnClick.bind(this);
+        this.handleOnExit  = this.handleOnExit.bind(this);
         
         this.room.on(
             'onShow', 
@@ -39,7 +40,17 @@ class ChatRoom extends React.Component
 
     handleOnClick()
     {
-        this.app.joinRoom(this.room.roomName);
+        if (this.room.selected)
+            this.handleOnExit();
+        else
+            this.app.joinRoom(this.room.roomName);
+
+        this.setState({});
+    }
+
+    handleOnExit()
+    {
+        this.app.exitRoom(this.room.roomName);
     }
 
     get selectedClass()

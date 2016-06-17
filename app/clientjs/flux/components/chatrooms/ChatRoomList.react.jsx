@@ -22,8 +22,6 @@ class ChatRoomList extends React.Component
                 component.setState(
                     { availableRooms : component.state.availableRooms}
                 );
-
-                app.joinRoom("Yoga");
             }
         ); 
     }

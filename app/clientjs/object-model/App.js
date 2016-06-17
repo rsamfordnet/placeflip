@@ -38,6 +38,11 @@ class App extends Event.EventEmitter
     {
         this.chat.findAvailableRooms()
     }
+
+    exitRoom(roomName)
+    {
+        this.chat.exitRoom(roomName);
+    }
 }
 
 export default App;

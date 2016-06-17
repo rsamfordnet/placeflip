@@ -111,6 +111,15 @@ class Chat extends Events.EventEmitter
         );
     }
 
+    exitRoom(roomName)
+    {
+        this.availableRooms[roomName].sendExit();
+        this.joinedRooms.remove(roomName);
+        this.currentRoom = null;
+
+        this.emit('onNoRoomToShow', roomName);
+    }
+
     /* public async [emits->onShowRoom] */ 
     findAvailableRooms()
     {
