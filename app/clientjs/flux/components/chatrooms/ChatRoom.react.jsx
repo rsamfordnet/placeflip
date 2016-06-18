@@ -46,6 +46,8 @@ class ChatRoom extends React.Component
             this.app.joinRoom(this.room.roomName);
 
         this.setState({});
+        window.showSmallChat();
+        
     }
 
     handleOnExit()

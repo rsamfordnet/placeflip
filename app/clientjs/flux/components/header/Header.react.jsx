@@ -10,7 +10,7 @@ class Header extends React.Component
     render()
     {
         return (
-            <div>
+            <div className="header">
                 <h1>Placeflip</h1>
                 <hr />
                 <div>

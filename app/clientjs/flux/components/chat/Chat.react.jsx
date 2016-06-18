@@ -200,6 +200,10 @@ class Chat extends React.Component
         app.createRoom(roomName);
     }
 
+    showSmallRoom()
+    {
+        window.showSmallRoom();
+    }
     
     render()
     {
@@ -211,6 +215,11 @@ class Chat extends React.Component
         {
             headerPanel = <div>
                 <h1>{chat.currentRoom ? chat.currentRoom.roomName : ""}</h1>
+                <div className="if-small">
+                    <div className="paddedContent">
+                        <input onClick={this.showSmallRoom} value="Show Rooms" type="button" />
+                    </div>
+                </div>
                 <ChatUserList 
                     users = { this.state.connectedUsers } />
                 <div className="chat-typing"></div>
@@ -231,32 +240,38 @@ class Chat extends React.Component
         else
         {
             headerPanel = <div></div>;
-            middlePanel = <div className="chat-messages-container chat-noMessages"><span>No room is selected</span></div>;
+
+            middlePanel = <div className="chat-messages-container chat-noMessages">
+                <span>No room is selected</span>
+                <div className="if-small">
+                    <div className="paddedContent">
+                        <input onClick={this.showSmallRoom} value="Show Rooms" type="button" />
+                    </div>
+                </div>
+            </div>;
             footerPanel = <div></div>;
         }
 
         return (
-            <table className="chat-table container">
-                <tbody>
-                    <tr className="chat-table header">
-                        <td>
+            <div className="b">
+                <div className="chat-table">
+                    <div className="r1">
+                        <div className="c">
                             {headerPanel}
-                        </td>
-                    </tr>
-                    <tr className="chat-table body">
-                        <td>
+                        </div>
+                    </div>
+                    <div className="r2">
+                        <div className="c">
                             {middlePanel}
-
-                        </td>
-                    </tr>
-                    <tr className="chat-table footer">
-                        <td>
+                        </div>
+                    </div>
+                    <div className="r3">
+                        <div className="c">
                             {footerPanel}
-                            
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
     }
 }

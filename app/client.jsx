@@ -3,7 +3,7 @@ var React     = require('react');
 var ReactDom  = require('react-dom')
 var Main      = require('././clientjs/flux/components/Main.react.jsx');
 var bootstrap = require('bootstrap');
-import chatWindowPlugin from '././clientjs/flux/components/plugins/chatwindow.jquery.js';
+import layout from '././clientjs/flux/components/plugins/layout.jquery.js';
 import App from '././clientjs/object-model/App.js';
 
 /* Creates app instance. */
@@ -19,4 +19,4 @@ ReactDom.render(
 $("body").show();
 
 /* Calls the chat window plugin. */
-chatWindowPlugin();
+layout();

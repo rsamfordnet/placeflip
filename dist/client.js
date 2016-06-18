@@ -1,8 +1,8 @@
 'use strict';
 
-var _chatwindowJquery = require('././clientjs/flux/components/plugins/chatwindow.jquery.js');
+var _layoutJquery = require('././clientjs/flux/components/plugins/layout.jquery.js');
 
-var _chatwindowJquery2 = _interopRequireDefault(_chatwindowJquery);
+var _layoutJquery2 = _interopRequireDefault(_layoutJquery);
 
 var _App = require('././clientjs/object-model/App.js');
 
@@ -27,4 +27,4 @@ ReactDom.render(React.createElement(Main, { app: app }), document.getElementById
 $("body").show();
 
 /* Calls the chat window plugin. */
-(0, _chatwindowJquery2.default)();
+(0, _layoutJquery2.default)();

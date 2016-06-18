@@ -19,25 +19,19 @@ module.exports = React.createClass(
         render : function()
         {
             return (
-                <div>
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-sm-8">
-                                <div class="header-container">
-                                    <Header />
-                                    <hr />
-                                </div>
-                                <div className="chat-room-container">
-                                    <ChatRoomList app={ this.props.app } />
-                                </div>
-                                
-                                
-                                
-                            </div>
-                            <div className="col-sm-4 app-panel">
-                                <Chat app={ this.props.app } />
-                            </div>
+                <div className="r">    
+                    <div className="c1"></div>
+                    <div className="c2">
+                        <div className="header-container">
+                            <Header />
                         </div>
+                        <hr />
+                        <div className="chat-room-container">
+                            <ChatRoomList app={ this.props.app } />
+                        </div>
+                    </div>
+                    <div className="c3">
+                        <Chat app={ this.props.app } />
                     </div>
                 </div>
             );
