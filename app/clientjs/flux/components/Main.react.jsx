@@ -3,6 +3,7 @@
 /* react  */   import ActivityBox      from '../components/ActivityBox.react.jsx';
 /* react  */   import ChatRoomList     from '../components/chatrooms/ChatRoomList.react.jsx';
 /* react  */   import Header           from '../components/header/Header.react.jsx';
+/* react  */   import JoinedRoomList   from '../components/joinedrooms/JoinedRoomList.react.jsx';
 
 module.exports = React.createClass(
     {
@@ -20,7 +21,9 @@ module.exports = React.createClass(
         {
             return (
                 <div className="r">    
-                    <div className="c1"></div>
+                    <div className="if-large c1">
+                        
+                    </div>
                     <div className="c2">
                         <div className="header-container">
                             <Header />

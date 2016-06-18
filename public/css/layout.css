@@ -54,8 +54,8 @@ body
 .t.medium{
   width: 100%
 }
-.t.medium .c1{
-  display: none
+.t.medium .r .c2{
+	padding:0px
 }
 
 .t.small{
@@ -64,7 +64,7 @@ body
 .t.small .c1{
   display: none
 }
-.t.small .c3{
+.t.small .r .c3{
   width:100%;
 }
 

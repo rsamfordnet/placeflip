@@ -118,6 +118,7 @@ class Chat extends Events.EventEmitter
         this.currentRoom = null;
 
         this.emit('onNoRoomToShow', roomName);
+        this.emit("onLeaveRoom", roomName);
     }
 
     /* public async [emits->onShowRoom] */ 
@@ -210,6 +211,7 @@ class Chat extends Events.EventEmitter
         this.joinedRooms.add(roomName, this.availableRooms[roomName]);
         this.switchRoom(roomName);
         this.currentRoom.sendJoin(roomName);
+        this.emit("onJoiningRoom");
     }
     /* <-- */
 }

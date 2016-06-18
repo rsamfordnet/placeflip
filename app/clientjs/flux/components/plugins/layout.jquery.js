@@ -50,6 +50,32 @@ export default function()
 				$(".if-small").show();
 			}
 
+			window.enterMediumMode = function()
+			{
+				$("html").css("overflow", "hidden");
+				$("html").css("overflow-y", "hidden");
+				$(".t .r .c2").css("overflow-y", "scroll");
+				$(".t .r .c2").css("display", "inline-block");
+				$(".t .r .c2").css("height", document.body.clientHeight);
+				$(".t .r .c3").css("width", 400);
+				$(".t .r .c2").css("width", document.body.clientWidth - $(".t .r .c3").width());
+				$(".t .r").css("height", document.body.clientHeight);
+				$(".t").css("height", document.body.clientHeight);
+				$(window).scrollTop(0);
+			}
+
+			window.exitMediumMode = function()
+			{
+				$(".t .r .c2").css("overflow-y", "");
+				$(".t .r .c2").css("overflow-y", "");
+				$(".t .r .c2").css("display", "table-cell");
+				$(".t .r .c2").css("width", "");
+				$(".t .r .c3").css("width", "");
+
+				$("html").css("overflow", "");
+				$("html").css("overflow-y", "auto");
+			}
+
 			$(window).resize(
 					function()
 					{
@@ -84,6 +110,11 @@ export default function()
 							small = true;
 						}
 
+						if (large)
+							$(".if-large").show();
+						else
+							$(".if-large").hide();
+
 						if (large || medium)
 						{
 							window.isSmallMode = false;
@@ -99,6 +130,11 @@ export default function()
 						if (medium)
 						{
 							$(".t").addClass("medium");
+							window.enterMediumMode();
+						}
+						else
+						{
+							window.exitMediumMode();
 						}
 
 						if (small)
