@@ -1,0 +1,38 @@
+.button
+{
+  color:white;
+  padding-top:12px;
+  paddint-bottom:5px;
+  background-color:gray;
+  height:30px;
+  vertical-align:middle;
+  text-align:center;
+  border-radius:5px;
+  border:1px solid #f0f0f0;
+  cursor:pointer
+}
+
+.button:hover
+{
+  padding-top:12px;
+  paddint-bottom:5px;
+  background-color:#a0a0a0;
+  height:30px;
+  vertical-align:middle;
+  text-align:center;
+  border-radius:5px;
+  border:1px solid #f0f0f0;
+  cursor:pointer
+}
+
+.padded
+{
+  margin-bottom:10px
+}
+
+.big{
+  font-size: 26px;
+}
+.white{
+  color:white
+}

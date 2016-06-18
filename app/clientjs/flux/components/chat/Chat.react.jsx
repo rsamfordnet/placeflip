@@ -216,9 +216,7 @@ class Chat extends React.Component
             headerPanel = <div>
                 <h1>{chat.currentRoom ? chat.currentRoom.roomName : ""}</h1>
                 <div className="if-small">
-                    <div className="paddedContent">
-                        <input onClick={this.showSmallRoom} value="Show Rooms" type="button" />
-                    </div>
+                    <div className="padded button" onClick={this.showSmallRoom}>Show available rooms</div>
                 </div>
                 <ChatUserList 
                     users = { this.state.connectedUsers } />
@@ -242,11 +240,9 @@ class Chat extends React.Component
             headerPanel = <div></div>;
 
             middlePanel = <div className="chat-messages-container chat-noMessages">
-                <span>No room is selected</span>
+                <div className="big white">No room is selected</div>
                 <div className="if-small">
-                    <div className="paddedContent">
-                        <input onClick={this.showSmallRoom} value="Show Rooms" type="button" />
-                    </div>
+                    <div className="padded button" onClick={this.showSmallRoom}>Show available rooms</div>
                 </div>
             </div>;
             footerPanel = <div></div>;
