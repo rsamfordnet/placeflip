@@ -57,11 +57,12 @@ export default function()
 				$(".t .r .c2").css("overflow-y", "scroll");
 				$(".t .r .c2").css("display", "inline-block");
 				$(".t .r .c2").css("height", document.body.clientHeight);
-				$(".t .r .c3").css("width", 400);
-				$(".t .r .c2").css("width", document.body.clientWidth - $(".t .r .c3").width());
+				$(".t .r .c3").css("width", document.body.clientWidth * 0.4);
+				$(".t .r .c2").css("width", document.body.clientWidth * 0.6);
 				$(".t .r").css("height", document.body.clientHeight);
 				$(".t").css("height", document.body.clientHeight);
 				$(window).scrollTop(0);
+				window.scrollTo(0,0);
 			}
 
 			window.exitMediumMode = function()
@@ -79,23 +80,10 @@ export default function()
 			$(window).resize(
 					function()
 					{
-						$(".chat-table")
-							.css(
-								"height",
-								document.body.clientHeight
-							);
-
-						$(".chat-table .r2 .c")
-							.css(
-								"height",
-								document.body.clientHeight -
-								$(".chat-table .r1 .c").height()  -
-								$(".chat-table .r3 .c").height() 
-							);
-
 						var large  = true;
 						var medium = false;
 						var small  = false;
+						var phonelandscape = false;
 
 						if ($(window).width() < 1100)
 						{
@@ -108,6 +96,11 @@ export default function()
 							large = false;
 							medium = false;
 							small = true;
+						}
+
+						if ($(window).height() < 600)
+						{
+							phonelandscape = true;
 						}
 
 						if (large)
@@ -137,6 +130,17 @@ export default function()
 							window.exitMediumMode();
 						}
 
+						if (phonelandscape)
+						{
+							$(".if-notlandscape").hide();
+							$(".if-notlandscape").data("landscape", true);
+						}
+						else
+						{
+							$(".if-notlandscape").show();
+							$(".if-notlandscape").data("landscape", false);
+						}
+
 						if (small)
 						{
 							window.showSmall();
@@ -145,6 +149,22 @@ export default function()
 						{
 							$(".if-small").hide();
 						}
+
+						$(".chat-table")
+							.css(
+								"height",
+								document.body.clientHeight
+							);
+
+						var header = $(".chat-table .r1 .c");
+						
+						$(".chat-table .r2 .c")
+							.css(
+								"height",
+								document.body.clientHeight -
+								(header.is(":visible") ? header.height() : 0 )  -
+								$(".chat-table .r3 .c").height() 
+							);
 					}
 				);
 

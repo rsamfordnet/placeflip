@@ -251,7 +251,7 @@ class Chat extends React.Component
         return (
             <div className="b">
                 <div className="chat-table">
-                    <div className="r1">
+                    <div className="r1 if-notlandscape">
                         <div className="c">
                             {headerPanel}
                         </div>
