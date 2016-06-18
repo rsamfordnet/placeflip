@@ -52,6 +52,9 @@ export default function()
 
 			window.enterMediumMode = function()
 			{
+				$(window).scrollTop(0);
+				window.scrollTo(0,0);
+				
 				$("html").css("overflow", "hidden");
 				$("html").css("overflow-y", "hidden");
 				$(".t .r .c2").css("overflow-y", "scroll");
@@ -61,8 +64,6 @@ export default function()
 				$(".t .r .c2").css("width", document.body.clientWidth * 0.6);
 				$(".t .r").css("height", document.body.clientHeight);
 				$(".t").css("height", document.body.clientHeight);
-				$(window).scrollTop(0);
-				window.scrollTo(0,0);
 			}
 
 			window.exitMediumMode = function()
