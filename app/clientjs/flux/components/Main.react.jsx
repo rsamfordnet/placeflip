@@ -4,6 +4,7 @@
 /* react  */   import ChatRoomList     from '../components/chatrooms/ChatRoomList.react.jsx';
 /* react  */   import Header           from '../components/header/Header.react.jsx';
 /* react  */   import JoinedRoomList   from '../components/joinedrooms/JoinedRoomList.react.jsx';
+/* react-tabs */ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 module.exports = React.createClass(
     {
@@ -29,12 +30,23 @@ module.exports = React.createClass(
                             <Header />
                         </div>
                         <hr />
-                        <div className="chat-room-container">
-                            <ChatRoomList app={ this.props.app } />
-                        </div>
+                        <Tabs>
+                            <TabList>
+                                <Tab>Rooms</Tab>
+                                <Tab>Friends</Tab>
+                            </TabList>                            
+                            <TabPanel>
+                                <div className="chat-room-container">
+                                    <ChatRoomList />
+                                </div>
+                            </TabPanel>
+                            <TabPanel>
+                                <div>Hello World</div>
+                            </TabPanel>
+                        </Tabs>
                     </div>
                     <div className="c3">
-                        <Chat app={ this.props.app } />
+                        <Chat />
                     </div>
                 </div>
             );

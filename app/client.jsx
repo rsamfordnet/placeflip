@@ -2,16 +2,30 @@ var $ = window.jQuery = window.$ = require('jQuery');
 var React     = require('react');
 var ReactDom  = require('react-dom')
 var Main      = require('././clientjs/flux/components/Main.react.jsx');
+var ActivityBox      = require('././clientjs/flux/components/ActivityBox.react.jsx');
 var bootstrap = require('bootstrap');
-import layout from '././clientjs/flux/components/plugins/layout.jquery.js';
-import App from '././clientjs/object-model/App.js';
+import layout 	from '././clientjs/flux/components/plugins/layout.jquery.js';
+import App 		from '././clientjs/object-model/App.js';
+import { Router, Route, hashHistory } from 'react-router';
+
+
+
 
 /* Creates app instance. */
-var app = new App();
+window.app = new App();
 
 /* Renders Main. */
 ReactDom.render(
-    <Main app={ app } />, 
+	<Router history={hashHistory}>
+		<Route 
+			path="/" 
+			component={Main}
+		/>
+		<Route 
+			path="/show" 
+			component={ActivityBox}
+		/>
+    </Router>, 
     document.getElementById("app")
 );
 

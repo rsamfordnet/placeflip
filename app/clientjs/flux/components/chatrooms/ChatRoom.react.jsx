@@ -5,7 +5,7 @@ class ChatRoom extends React.Component
     constructor(props)
     {
         super(props);
-        let app = this.app = this.props.app;
+        let app = this.app = window.app;
         let component = this;
 
         this.handleOnClick = this.handleOnClick.bind(this);
@@ -47,7 +47,7 @@ class ChatRoom extends React.Component
 
         this.setState({});
         window.showSmallChat();
-        
+
     }
 
     handleOnExit()

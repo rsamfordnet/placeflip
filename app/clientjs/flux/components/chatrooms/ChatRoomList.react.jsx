@@ -11,9 +11,9 @@ class ChatRoomList extends React.Component
         super(props);
 
         component = this;
-        this.app  = app  = props.app;
+        this.app  = app  = window.app;
         this.state = {
-            availableRooms : []
+            availableRooms : app.chat.availableRooms.toArray()
         };
 
         app.chat.on('onRoomsAvailable', 
@@ -31,7 +31,6 @@ class ChatRoomList extends React.Component
 
         return (
             <div>
-                <strong>Rooms</strong>
                 {
                     this.state.availableRooms.map(
                         function(room)

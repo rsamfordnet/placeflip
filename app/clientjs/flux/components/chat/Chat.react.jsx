@@ -20,8 +20,8 @@ class Chat extends React.Component
 
         /* private variables. */
         component = this;
-        app       = this.app  = this.props.app;
-        chat      = this.chat = this.props.app.chat;
+        app       = this.app  = window.app;
+        chat      = this.chat = window.app.chat;
         
         this.state = {
             messages        : [],
@@ -127,9 +127,19 @@ class Chat extends React.Component
             }
         );
     }
+
+    componentDidMount()
+    {      
+        this.resize();
+    }
     
     componentDidUpdate()
     {      
+        this.resize();
+    }
+
+    resize()
+    {
         if (window.onResize)
             window.onResize();
     }
