@@ -26,6 +26,16 @@
             }
         );
     }
+
+    /* public void */ this.getUser = function(email, success, error)
+    {
+        mdb.collection("users").findOne(
+            { email : email }, 
+            function(err, user){
+                if (err) error(err); else success(user);
+            }
+        );
+    }
 }
 
 // =>

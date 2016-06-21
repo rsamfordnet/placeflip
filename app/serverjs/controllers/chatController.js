@@ -47,5 +47,18 @@ module.exports = {
 				);
 			}
 		);
+
+		app.get("/users/:userName",
+			function(req, res)
+			{
+				repository.users.getUser(
+					req.params.userName,
+					function(user)
+					{
+						return res.send(user);
+					}
+				);
+			} 
+		);
 	}
 };
