@@ -132,6 +132,7 @@ function onRepositoryReady()
     /* URL Routing and Controllers. */
     require('./serverjs/controllers/homeController.js').setup(app, repository, requireSession);
     require('./serverjs/controllers/chatController.js').setup(app, repository, requireSession, userSockets);
+    require('./serverjs/controllers/userController.js').setup(app, repository, requireSession, userSockets);
 }
 
 
