@@ -59,6 +59,8 @@ class Room extends Events.EventEmitter
 	/* public void */ 
 	send(message)
 	{
+		alert(session.user().username);
+		
 		if (!(message instanceof Message))
 			throw 'Invalid message type';
             

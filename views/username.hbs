@@ -1,0 +1,23 @@
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"></link>
+
+<div class="container"> 
+	<h1>
+		Username
+	</h1>
+	<hr />
+	<form method="POST"> 
+		{{#if username}}
+			Awesome, your new username is <b>{{username}}</b> click <a href="./">here</a> to continue.
+		{{else}}
+			<div class="jumbotron">
+				<h3>Oops! It looks like you don't have a username yet!</h3>
+				<br />
+				A username is important, this will make it easier for people to find you on Placeflip. 
+				Also it will help sharing your activities easier on Facebook and Twitter.
+			</div>
+			http://www.placeflip.com/
+			<input name="username" value="" type="text" id="username" />
+			<input type="submit" value="Set username" />
+		{{/if}}
+	</form>
+</div>

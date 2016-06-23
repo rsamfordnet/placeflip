@@ -38,42 +38,70 @@
         );
     }
 
-    /* public void */ this.addFriend = function(invitingUserId, invitedUserId, success, error)
+    this.setUsername = function(email, username, success, error)
     {
         mdb.collection("users").findOne(
-            { email : invitingUserId }, 
-            function(err, user){
-                console.log("Begin updating user " + invitingUserId);
-
-                if (err) return error(err); 
-
-                console.log(user);
-
-                if (!user)
-                    throw 'User not found';
-
-                if (!user.sentFriendRequests)
-                    user.sentFriendRequests = new Array();
-
-                if (user.sentFriendRequests.indexOf(invitedUserId) == -1)
-                    user.sentFriendRequests.push(
-                            {
-                                userId : invitedUserId,
-                                status   : "P"
-                            }
-                        );
-
+            { email : email },
+            function(err, user)
+            {
+                user.username = username;
                 mdb.collection("users").update(
                     { _id : user._id}, 
                     user
                 );
 
+                if (err) return error();
+
+                success();
+            }
+        );
+    }
+
+    /* public void */ this.addFriend = function(invitingUsername, invitedUsername, success, error)
+    {
+        console.log("_-_-_-_");
+
+        mdb.collection("users").findOne(
+            { username : invitingUsername }, 
+            function(err, invitingUser){
+                console.log("Begin updating inviting user " + invitingUsername);
+
+                if (err) return error(err); 
+
+                console.log(invitingUser);
+
+                if (!invitingUser)
+                    throw 'User not found';
+
+                if (!invitingUser.sentFriendRequests)
+                    invitingUser.sentFriendRequests = new Array();
+
+                var sentFriendRequest = _.findWhere(
+                        invitingUser.sentFriendRequests,
+                        {
+                            username : invitedUsername
+                        }
+                    );
+
+                if (!sentFriendRequest)
+                    invitingUser.sentFriendRequests.push(
+                            {
+                                username : invitedUsername,
+                                status   : "P"
+                            }
+                        );
+
+                mdb.collection("users").update(
+                    { _id : invitingUser._id}, 
+                    invitingUser
+                );
+
                 console.log("Inviting user is updated.");
 
                 mdb.collection("users").findOne(
-                    { email : invitedUserId }, 
+                    { username : invitedUsername }, 
                     function(err, invitedUser){
-                        console.log("Updating invited user: " + invitedUserId );
+                        console.log("Updating invited user: " + invitedUsername );
 
                         if (!invitedUser)
                             throw "Invited user not found";
@@ -81,10 +109,17 @@
                         if (!invitedUser.receivedFriendRequests)
                             invitedUser.receivedFriendRequests = new Array();
 
-                        if (invitedUser.receivedFriendRequests.indexOf(invitedUserId) == -1)
+                        var receivedFriendRequest = _.findWhere(
+                            invitedUser.receivedFriendRequests,
+                            {
+                                username : invitedUsername
+                            }
+                        );
+
+                        if (!receivedFriendRequest)
                             invitedUser.receivedFriendRequests.push(
                                     {
-                                        userId : invitingUserId,
+                                        username : invitingUsername,
                                         status : "P"
                                     }
                                 );
@@ -102,14 +137,16 @@
     }
 
 
-    /* public void */ this.acceptFriend = function(invitedUserId, invitingUserId, success, error)
+    /* public void */ this.acceptFriend = function(invitedUsername, invitingUsername, success, error)
     {
+        console.log("_-_-_-_");
+
         mdb.collection("users").findOne(
             { 
-                email : invitingUserId 
+                username : invitingUsername
             }, 
             function(err1, invitingUser){
-                console.log("Begin updating inviting user " + invitingUserId);
+                console.log("Begin updating inviting user " + invitingUsername);
 
                 if (err1) return error(err1); 
 
@@ -124,12 +161,12 @@
                 var sentFriendRequest = _.findWhere(
                         invitingUser.sentFriendRequests,
                         {
-                            userId : invitedUserId
+                            username : invitedUsername
                         }
                     );
 
                 if (!sentFriendRequest)
-                    throw "There isn't any invitation sent to that user (" + invitedUserId + ")."
+                    throw "There isn't any invitation sent to that user (" + invitedUsername + ")."
 
                 sentFriendRequest.status = "A";
 
@@ -139,13 +176,13 @@
                 if (!_.findWhere(
                             invitingUser.friends,
                             {
-                                userId : invitedUserId
+                                username : invitedUsername
                             }
                         )
                     )
                     invitingUser.friends.push(
                             {
-                                userId : invitedUserId
+                                username : invitedUsername
                             }
                         );
 
@@ -158,11 +195,11 @@
 
                 mdb.collection("users").findOne(
                     { 
-                        email : invitedUserId 
+                        username : invitedUsername
                     }, 
                     function(err2, invitedUser)
                     {
-                        console.log( "Updating invited user: " + invitedUserId );
+                        console.log( "Updating invited user: " + invitedUsername );
                         console.log(invitedUser);
 
                         if (err2) return error(err2); 
@@ -175,10 +212,16 @@
 
                         var receivedFriendRequest = _.findWhere(
                             invitedUser.receivedFriendRequests, 
-                            { userId : invitingUserId}
+                            { 
+                                username : invitingUsername
+                            }
                         );
 
-                        console.log({array : invitedUser.receivedFriendRequests, email: invitingUserId});
+                        console.log(
+                            {
+                                array : invitedUser.receivedFriendRequests, username: invitingUsername
+                            }
+                        );
 
                         if (!receivedFriendRequest)
                             throw 'No friend request received';
@@ -191,13 +234,13 @@
                         if (!_.findWhere(
                                     invitedUser.friends,
                                     {
-                                        userId : invitedUserId
+                                        username : invitedUsername
                                     }
                                 )
                             )
                             invitedUser.friends.push(
                                 {
-                                    userId : invitingUserId
+                                    username : invitingUsername
                                 }
                             );
 

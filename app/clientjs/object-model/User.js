@@ -1,6 +1,6 @@
 import $ from 'jQuery';
 
-/* class */class User
+class User
 {
 	constructor(userName)
 	{

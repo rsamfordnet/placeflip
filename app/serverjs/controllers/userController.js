@@ -3,11 +3,20 @@ module.exports = {
 	{
 		var passport = requireSession.passport;
 		
-		app.get("/users/:userName",
+		app.get("/users/:username",
 			function(req, res)
 			{
+				if (req.params.username == "me")
+				{
+					if (!req.user)
+						return res.send({ message : "unauthenticated"});
+
+					console.log("Converting 'me' to " + req.user.email);
+					req.params.username = req.user.email;
+				}
+
 				repository.users.getUser(
-					req.params.userName,
+					req.params.username,
 					function(user)
 					{
 						if (user)
@@ -21,33 +30,33 @@ module.exports = {
 			} 
 		);
 
-		app.get("/users/addfriend/:userName", 
+		app.get("/users/addfriend/:username", 
 			requireSession,
 			function(req, res)
 			{
 				console.log(req.user);
 				repository.users.addFriend(
-					req.user.email,
-					req.params.userName,
+					req.user.username,
+					req.params.username,
 					function()
 					{
-						return res.send({message : "Friend request sent."});
+						return res.sendStatus(200);
 					}
 				);
 			}
 		);
 
-		app.get("/users/acceptfriend/:userName", 
+		app.get("/users/acceptfriend/:username", 
 			requireSession,
 			function(req, res)
 			{
 				console.log(req.user);
 				repository.users.acceptFriend(
-					req.user.email,
-					req.params.userName,
+					req.user.username,
+					req.params.username,
 					function()
 					{
-						return res.send({message : "Friend request accepted."});
+						return res.send(200);
 					}
 				);
 			}

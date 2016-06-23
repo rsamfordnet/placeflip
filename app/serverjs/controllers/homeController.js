@@ -49,15 +49,55 @@ module.exports = {
 				);
 			}
 		);
+
+		app.get("/username",
+			 function(req, res){
+			 	res.render("username");
+			 }
+		 );
+
+		app.post("/username",
+			 function(req, res){
+			 	/* Sets the username on the repository. */
+			 	repository.users.setUsername(
+			 		req.user.email, 
+			 		req.body.username,
+			 		function()
+			 		{
+			 			req.user.username = req.body.username;
+			 			res.redirect(302, "/");
+			 		}
+		 		);
+			 }
+		 );
 		
-		app.get('/', requireSession,
+		app.get("/clean", 
 			function(req, res)
 			{
+				repository.users.setUsername("joseangel.yanez@gmail.com", null, function(){});
+				repository.users.setUsername("test@test.com", null, function(){});
+
+				return res.sendStatus(200);
+			}
+		);
+
+		app.get(['/', "/home"], requireSession,
+			function(req, res)
+			{
+				
+
+				if (req.user.username == null)
+					return res.redirect("username");
+
 				console.log("Incoming user: " + req.user.name);
 				res.render(
 					'index', 
 					{ 
-						data   : req.user, 
+						data   : 
+						{ 
+							user     : req.user,
+							userJson : JSON.stringify(req.user)
+						}, 
 						layout : false
 					}
 				);
