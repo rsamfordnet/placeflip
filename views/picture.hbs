@@ -1,4 +1,21 @@
-<form action="/pf/picture" enctype="multipart/form-data" method="post">
-    <input id="photo_image" name="image" type="file" />
-    <input type="submit" value="Upload" />
-</form>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"></link>
+
+<div class="container"> 
+	<h1>
+		Placeflip
+	</h1>
+	<hr />
+	<form action="/pf/picture" enctype="multipart/form-data" method="post">
+    	{{#if images.profile}}
+    		Awesome! Here's your profile picture. Click <a href="/">here</a> to continue.
+    		<br />
+    		<br />
+    		<img src="{{images.large}}" alt="profile" />
+    	{{else}}
+    		<input id="photo_image" name="image" type="file" />
+			<br />
+	    	<input type="submit" value="Upload" />
+	    	<br />
+    	{{/if}}
+	</form>
+</div>

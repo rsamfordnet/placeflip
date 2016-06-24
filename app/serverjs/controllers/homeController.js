@@ -90,17 +90,29 @@ module.exports = {
 					return res.redirect("username");
 
 				console.log("Incoming user: " + req.user.name);
-				res.render(
-					'index', 
-					{ 
-						data   : 
-						{ 
-							user     : req.user,
-							userJson : JSON.stringify(req.user)
-						}, 
-						layout : false
+
+				repository.users.getUser(
+					req.user.email, 
+					function(fullUser)
+					{
+						res.render(
+							'index', 
+							{ 
+								data   : 
+								{ 
+									user     : fullUser,
+									userJson : JSON.stringify(fullUser)
+								}, 
+								layout : false
+							}
+						);
+					}, 
+					function(error)
+					{
+						console.log(error);
 					}
 				);
+				
 			}
 		);
 	}

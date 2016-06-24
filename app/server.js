@@ -1,6 +1,6 @@
 /* Configuration */
 var config = require('./serverjs/config/db.js');
-var port = process.env.PORT || 8001;
+var port = process.env.PORT || 8002;
 
 /* Express and HTTP listeners. */
 var express = require('express');
@@ -133,6 +133,7 @@ function onRepositoryReady()
     require('./serverjs/controllers/homeController.js').setup(app, repository, requireSession);
     require('./serverjs/controllers/chatController.js').setup(app, repository, requireSession, userSockets);
     require('./serverjs/controllers/userController.js').setup(app, repository, requireSession, userSockets);
+    require('./serverjs/controllers/profileController.js').setup(app, repository, requireSession, userSockets);
 }
 
 

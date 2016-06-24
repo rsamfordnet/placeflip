@@ -1,4 +1,5 @@
 import React from 'react';
+import Friend from './Friend.react.jsx';
 import session from '../../../object-model/Session.js';
 
 class FriendList extends React.Component
@@ -11,19 +12,22 @@ class FriendList extends React.Component
         var component = this;
     }
         
-    get friends(){ return session.user().friends; }
+    
 
     render()
     {
+        var friends = session.user().friends;
+
         return (
             <ul>
                 {
-                    this.friends.map(
+                    friends.map(
                         function(friend)
                         {
                             if (friend.username == undefined)
                                 return;
-                            return <li>{friend.username}</li>
+
+                            return <Friend key={friend.username} friend={friend}></Friend>
                         }
                     )
                 }

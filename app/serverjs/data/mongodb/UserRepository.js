@@ -1,10 +1,18 @@
-/* function */ const callback = require('./Callback.js');
-/* object */ const _ = require("underscore");
+const callback = require('./Callback.js');
+const _        = require("underscore");
+const util     = require("util");
 
 /* class  */ function UserRepository(mdb)
 {
     /* public void */ this.signUp = function(user, success, error)
     {
+        /* Sets default values for the account. */
+        if (!user.images)
+            user.images = { 
+                profile       : "http://res.cloudinary.com/hhrfxfead/image/upload/v1466707692/sample_id.png",
+                profile_small : "http://res.cloudinary.com/hhrfxfead/image/upload/c_scale,w_50/v1466707692/sample_id.png"
+            };
+
         mdb.collection("users").insertOne(
             user,
             callback(success, error)
@@ -17,7 +25,15 @@
             { email : email }, 
             function(err, user){
                 if (user && user.password == password)
+                {
+                    if (!user.images)
+                        user.images = { 
+                            large : "http://res.cloudinary.com/hhrfxfead/image/upload/v1466707692/sample_id.png",
+                            small : "http://res.cloudinary.com/hhrfxfead/image/upload/c_scale,w_50/v1466707692/sample_id.png"
+                        };
+
                     success(user);
+                }
                 else
                 {
                     if (error)
@@ -28,12 +44,67 @@
         );
     }
 
-    /* public void */ this.getUser = function(email, success, error)
+    /* public async void */ this.getUsers = function(userIds, success, error)
     {
+        mdb
+            .collection("users")
+            .find(
+                { username : { $in: userIds } }
+            )
+            .toArray(
+                function(err, users){
+                    if (err && error) return error(err);
+
+                    success(users);
+                }
+            );
+            
+    }
+
+    /* public async void */ this.getUser = function(email, success, error)
+    {
+        var instance = this;
+
         mdb.collection("users").findOne(
             { email : email }, 
             function(err, user){
-                if (err) error(err); else success(user);
+                if (err) return error(err); 
+
+                if (!user)
+                    return success(null);
+
+                if (!user.images)
+                    user.images = { profile : "http://res.cloudinary.com/hhrfxfead/image/upload/v1466707692/sample_id.png" }
+
+                var friendsArray = 
+                    _.reject(
+                        user.friends.map(
+                            function(friend)
+                            {
+                                friend.password = null;
+                                return friend.username;
+                            }
+                        ),
+                        /*reject */ function(value)
+                        {
+                            return  (value == undefined);
+                        }
+                    );
+
+                console.log(util.inspect(friendsArray));
+
+                instance.getUsers(
+                    friendsArray,
+                    function(fullFriends)
+                    {
+                        user.friends = fullFriends;
+                        success(user);
+                    },
+                    function(error)
+                    {
+                        console.log(error);
+                    }
+                );
             }
         );
     }
@@ -134,6 +205,25 @@
                 );
             }
         );
+    }
+
+    /* public void */ this.setProfileImage = function(email, images, success)
+    {
+        mdb.collection("users").update(
+            { email : email }, 
+            { 
+                $set : 
+                    {
+                        images : {
+                            large : images.large,
+                            small : images.small
+                        }
+                    }
+            }
+        );
+
+        if (success)
+            success();
     }
 
 

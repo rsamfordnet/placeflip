@@ -1,6 +1,6 @@
-import React from 'react';
+import React             from 'react';
 import PushNotifications from '../pushnotifications/PushNotifications.react.jsx'
-
+import session           from '../../../object-model/Session.js';
 
 class Header extends React.Component
 {
@@ -13,6 +13,13 @@ class Header extends React.Component
     {
         return (
             <div className="header">
+                <a href="/pf/picture"> 
+                    <img src={session.user().images.small} />
+                </a>
+                <br />
+                <strong>
+                    Welcome {session.user().username}!
+                </strong>
                 <h1>Placeflip</h1>
                 <hr />
                 <div>
