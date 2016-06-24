@@ -51,12 +51,14 @@ module.exports = {
 		);
 
 		app.get("/username",
+			requireSession,
 			 function(req, res){
 			 	res.render("username");
 			 }
 		 );
 
 		app.post("/username",
+			requireSession,
 			 function(req, res){
 			 	/* Sets the username on the repository. */
 			 	repository.users.setUsername(

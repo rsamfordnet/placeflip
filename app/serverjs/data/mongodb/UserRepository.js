@@ -4,6 +4,22 @@ const util     = require("util");
 
 /* class  */ function UserRepository(mdb)
 {
+    var lastUserId = 0;
+
+    getLastUserId(
+        function(maxUserId)
+        {
+            lastUserId = maxUserId;
+            console.log("Last userId : " + lastUserId);
+        }
+    );
+
+    function getNextId()
+    {
+        lastUserId += 1;
+        return lastUserId;
+    }
+
     /* public void */ this.signUp = function(user, success, error)
     {
         /* Sets default values for the account. */
@@ -12,6 +28,8 @@ const util     = require("util");
                 profile       : "http://res.cloudinary.com/hhrfxfead/image/upload/v1466707692/sample_id.png",
                 profile_small : "http://res.cloudinary.com/hhrfxfead/image/upload/c_scale,w_50/v1466707692/sample_id.png"
             };
+
+        user.userId = getNextId();
 
         mdb.collection("users").insertOne(
             user,
@@ -40,6 +58,31 @@ const util     = require("util");
                         error("User not found");
                 }
                     
+            }
+        );
+    }
+
+    /* private void */ function getLastUserId(success, error)
+    {
+        mdb.collection("users").aggregate(
+            {
+                $group : {
+                    _id : '',
+                    last: {
+                        $max: "$userId"
+                    }
+                }
+            }
+            , 
+            function(err, sequence){
+                if (err) return error ? error(err) : undefined;
+
+                if (sequence.length == 0 || !sequence[0].last)
+                    success(1);
+                else
+                    success(sequence[0].last);
+
+                
             }
         );
     }
@@ -75,6 +118,9 @@ const util     = require("util");
 
                 if (!user.images)
                     user.images = { profile : "http://res.cloudinary.com/hhrfxfead/image/upload/v1466707692/sample_id.png" }
+
+                if (!user.friends)
+                    user.friends = new Array();
 
                 var friendsArray = 
                     _.reject(
@@ -128,14 +174,14 @@ const util     = require("util");
         );
     }
 
-    /* public void */ this.addFriend = function(invitingUsername, invitedUsername, success, error)
+    /* public void */ this.addFriend = function(invitingUserId, invitedUserId, success, error)
     {
         console.log("_-_-_-_");
 
         mdb.collection("users").findOne(
-            { username : invitingUsername }, 
+            { username : invitingUserId }, 
             function(err, invitingUser){
-                console.log("Begin updating inviting user " + invitingUsername);
+                console.log("Begin updating inviting user " + invitingUserId);
 
                 if (err) return error(err); 
 
@@ -150,14 +196,14 @@ const util     = require("util");
                 var sentFriendRequest = _.findWhere(
                         invitingUser.sentFriendRequests,
                         {
-                            username : invitedUsername
+                            username : invitedUserId
                         }
                     );
 
                 if (!sentFriendRequest)
                     invitingUser.sentFriendRequests.push(
                             {
-                                username : invitedUsername,
+                                username : invitedUserId,
                                 status   : "P"
                             }
                         );
@@ -170,9 +216,9 @@ const util     = require("util");
                 console.log("Inviting user is updated.");
 
                 mdb.collection("users").findOne(
-                    { username : invitedUsername }, 
+                    { username : invitedUserId }, 
                     function(err, invitedUser){
-                        console.log("Updating invited user: " + invitedUsername );
+                        console.log("Updating invited user: " + invitedUserId );
 
                         if (!invitedUser)
                             throw "Invited user not found";
@@ -183,14 +229,14 @@ const util     = require("util");
                         var receivedFriendRequest = _.findWhere(
                             invitedUser.receivedFriendRequests,
                             {
-                                username : invitedUsername
+                                username : invitedUserId
                             }
                         );
 
                         if (!receivedFriendRequest)
                             invitedUser.receivedFriendRequests.push(
                                     {
-                                        username : invitingUsername,
+                                        username : invitingUserId,
                                         status : "P"
                                     }
                                 );
@@ -227,16 +273,16 @@ const util     = require("util");
     }
 
 
-    /* public void */ this.acceptFriend = function(invitedUsername, invitingUsername, success, error)
+    /* public void */ this.acceptFriend = function(invitedUserId, invitingUserId, success, error)
     {
         console.log("_-_-_-_");
 
         mdb.collection("users").findOne(
             { 
-                username : invitingUsername
+                userId : invitingUserId
             }, 
             function(err1, invitingUser){
-                console.log("Begin updating inviting user " + invitingUsername);
+                console.log("Begin updating inviting user " + invitingUserId);
 
                 if (err1) return error(err1); 
 
@@ -251,12 +297,12 @@ const util     = require("util");
                 var sentFriendRequest = _.findWhere(
                         invitingUser.sentFriendRequests,
                         {
-                            username : invitedUsername
+                            userId : invitedUserId
                         }
                     );
 
                 if (!sentFriendRequest)
-                    throw "There isn't any invitation sent to that user (" + invitedUsername + ")."
+                    throw "There isn't any invitation sent to that user (" + invitedUserId + ")."
 
                 sentFriendRequest.status = "A";
 
@@ -266,13 +312,13 @@ const util     = require("util");
                 if (!_.findWhere(
                             invitingUser.friends,
                             {
-                                username : invitedUsername
+                                userId : invitedUserId
                             }
                         )
                     )
                     invitingUser.friends.push(
                             {
-                                username : invitedUsername
+                                userId : invitedUserId
                             }
                         );
 
@@ -285,11 +331,11 @@ const util     = require("util");
 
                 mdb.collection("users").findOne(
                     { 
-                        username : invitedUsername
+                        userId : invitedUserId
                     }, 
                     function(err2, invitedUser)
                     {
-                        console.log( "Updating invited user: " + invitedUsername );
+                        console.log( "Updating invited user: " + invitedUserId );
                         console.log(invitedUser);
 
                         if (err2) return error(err2); 
@@ -303,13 +349,13 @@ const util     = require("util");
                         var receivedFriendRequest = _.findWhere(
                             invitedUser.receivedFriendRequests, 
                             { 
-                                username : invitingUsername
+                                userId : invitingUsername
                             }
                         );
 
                         console.log(
                             {
-                                array : invitedUser.receivedFriendRequests, username: invitingUsername
+                                array : invitedUser.receivedFriendRequests, userId: invitingUserId
                             }
                         );
 
@@ -324,13 +370,13 @@ const util     = require("util");
                         if (!_.findWhere(
                                     invitedUser.friends,
                                     {
-                                        username : invitedUsername
+                                        userId : invitedUserId
                                     }
                                 )
                             )
                             invitedUser.friends.push(
                                 {
-                                    username : invitingUsername
+                                    userId : invitingUserId
                                 }
                             );
 

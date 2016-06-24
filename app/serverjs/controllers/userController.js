@@ -54,14 +54,14 @@ module.exports = {
 			} 
 		);
 
-		app.get("/users/addfriend/:username", 
+		app.get("/users/addfriend/:userId", 
 			requireSession,
 			function(req, res)
 			{
 				console.log(req.user);
 				repository.users.addFriend(
-					req.user.username,
-					req.params.username,
+					req.user.userId,
+					parseInt(req.params.userId),
 					function()
 					{
 						return res.sendStatus(200);
@@ -70,14 +70,14 @@ module.exports = {
 			}
 		);
 
-		app.get("/users/acceptfriend/:username", 
+		app.get("/users/acceptfriend/:userId", 
 			requireSession,
 			function(req, res)
 			{
 				console.log(req.user);
 				repository.users.acceptFriend(
-					req.user.username,
-					req.params.username,
+					req.user.userId,
+					parseInt(req.params.userId),
 					function()
 					{
 						return res.send(200);
