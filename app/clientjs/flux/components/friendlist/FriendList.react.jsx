@@ -11,9 +11,7 @@ class FriendList extends React.Component
         var chat = window.app.chat;
         var component = this;
     }
-        
     
-
     render()
     {
         var friends = session.user().friends;

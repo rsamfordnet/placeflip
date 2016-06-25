@@ -97,7 +97,24 @@ class Chat extends Events.EventEmitter
         global.socket = socket;
     };
 
-    createRoom(roomName)
+    startConversationWith(userId, success)
+    {
+        var rooomName = "";
+        if (session.user().userId > userId)
+            roomName = userId.toString() + "_" + session.user().userId.toString();
+        else
+            roomName = session.user().userId.toString() + "_" + userId.toString();
+
+        createRoom(roomName, 
+            () =>
+            {
+                if (success)
+                    success();
+            }
+        );
+    }
+
+    createRoom(roomName, success)
     {
         var instance = this;
 
@@ -107,6 +124,9 @@ class Chat extends Events.EventEmitter
             {
                 instance.emit("onRoomCreated");
                 instance.findAvailableRooms();
+
+                if (success)
+                    success();
             }
         );
     }
