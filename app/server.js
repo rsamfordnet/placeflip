@@ -17,104 +17,11 @@ app.use( bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
 
+/* Sockets */
+var socketContext = require('./serverjs/socketevents/socketContext.js')(io);
+
 /* Classes */
 /* class */ const Repository = require('./serverjs/data/Repository.js')
-
-
-/* io setup. */
-var userSockets = {};
-
-io.on(
-    'connection', 
-    function(socket){
-        socket.on(
-            'chat-start',
-            function(userName)
-            {
-                console.log('user ' + userName + 'joined the chat');
-            }
-        );
-        
-        socket.on(
-            'chat-join', 
-            function(message)
-            {
-                var roomName = message.roomName;
-                var userName = message.userName;
-                
-                userSockets[this.id] = 
-                    {   
-                        userName : userName, 
-                        roomName : roomName 
-                    };
-                
-                socket.broadcast.in(roomName).emit('chat-join', message)
-                
-                console.log(userName + ' joined to ' + roomName);
-                socket.join(roomName);
-            }
-        );
-
-        socket.on(
-            'chat-exit', 
-            function(room)
-            {
-                var roomName = room.roomName;
-                var userName = room.userName;
-                
-                var userSocket = userSockets[this.id];
-                socket.roomName = null;
-                
-                socket
-                    .broadcast
-                    .in(room.roomName)
-                    .emit('chat-leave', userSocket.userName);
-                
-                console.log(userName + ' left ' + roomName);
-                socket.leave(roomName);
-            }
-        );
-
-        socket.on(
-            'chat-typing',
-            function(data)
-            {
-                socket.broadcast.in(data.roomName).emit('chat-typing', data);
-                console.log(data);
-            }
-        );
-        
-        socket.on(
-            'chat-message', 
-            function(message)
-            {
-                socket.broadcast.in(message.roomName).emit('chat-message', message);
-                console.log(message)
-            }
-        );
-        
-        socket.on(
-            'disconnect',
-            function()
-            {
-                var userSocket = userSockets[this.id];
-                if (userSocket == undefined)
-                    return;
-                    
-                console.log(userSocket.userName + ' is offline.');
-                
-                socket
-                    .broadcast
-                    .in(userSocket.roomName)
-                    .emit('chat-leave', userSocket.userName);
-                
-                delete userSockets[this.id];
-            }
-        );
-    }
-);
-
-io.on
 
 /* Handlebar view engine and public directory setup. */
 var exphbs = require('express-handlebars');
