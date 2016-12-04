@@ -8,12 +8,18 @@ class Friend extends React.Component
         super(props);
     }
 
+    startConversation()
+    {
+        var app = window.app;
+        app.startConversationWith(this.props.friend.userId);
+    }
+
     render()
     {
         var friend = this.props.friend;
 
         return (
-            <div>
+            <div onClick={this.startConversation}>
                 <div>{friend.name}</div>
                 <img src={friend.images.small} alt={friend.name} />
             </div>

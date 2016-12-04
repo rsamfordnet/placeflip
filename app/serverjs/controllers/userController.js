@@ -65,6 +65,12 @@ module.exports = {
 					function()
 					{
 						return res.sendStatus(200);
+					},
+					function(error)
+					{
+						console.log("Uh oh! Error inviting friend!");
+						console.log(error);
+						return res.send({ error : error });
 					}
 				);
 			}
@@ -80,7 +86,13 @@ module.exports = {
 					parseInt(req.params.userId),
 					function()
 					{
-						return res.send(200);
+						return res.sendStatus(200);
+					},
+					function(error)
+					{
+						console.log("Uh oh! Error accepting friend!");
+						console.log(error);
+						return res.send({ error : error });
 					}
 				);
 			}

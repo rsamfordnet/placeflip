@@ -1,5 +1,6 @@
 import Event from 'events'
 import Chat  from './Chat.js'
+import session from './Session.js'
 
 class App extends Event.EventEmitter
 {
@@ -12,6 +13,9 @@ class App extends Event.EventEmitter
         /* Starts the chat. */
         this.chat.start();
         this.showAvailableRooms();
+
+        console.log("Current Session:");
+        console.log(session.user());
     }
 
     createRoom(roomName)
@@ -42,6 +46,11 @@ class App extends Event.EventEmitter
     exitRoom(roomName)
     {
         this.chat.exitRoom(roomName);
+    }
+
+    startConversationWith(userId)
+    {
+        this.chat.startConversationWith(userId);
     }
 }
 
